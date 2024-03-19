@@ -5,7 +5,7 @@ import { IconButton } from "@mui/material";
 import DisplayNotification, { NotificationMessage } from "../../sharedComponents/DisplayNotification";
 import { useState } from "react";
 import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
-import { BACKEND_PORT } from "../../conf/backendController";
+import {BACKEND_PORT, WEBSOCKET_PATH} from "../../conf/backendController";
 import NavBar from "../../sharedComponents/NavBar";
 
 /**
@@ -47,7 +47,7 @@ class AppListener extends events.EventEmitter {
 
       let isLocal = window.location.hostname.startsWith("localhost") || window.location.hostname.startsWith("127.0.0.1")
       let protocol = isLocal ? "ws://" : "wss://"
-      let websocketAddress = `${protocol}${window.location.hostname}${isLocal ? ":" + BACKEND_PORT : ""}/websocket/chargepoint`
+      let websocketAddress = `${protocol}${window.location.hostname}${isLocal ? ":" + BACKEND_PORT : ""}${WEBSOCKET_PATH}`
       this.websocket = new WebSocket(websocketAddress);
       this.websocket.onopen = (ev: Event) => {
           console.log('Websocket connected to the server');

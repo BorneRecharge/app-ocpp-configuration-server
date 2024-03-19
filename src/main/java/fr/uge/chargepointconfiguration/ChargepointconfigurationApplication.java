@@ -2,13 +2,12 @@ package fr.uge.chargepointconfiguration;
 
 import fr.uge.chargepointconfiguration.chargepoint.ChargepointRepository;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ConfigurationServer;
-import fr.uge.chargepointconfiguration.configuration.ConfigurationRepository;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
-import fr.uge.chargepointconfiguration.user.UserRepository;
 import java.net.InetSocketAddress;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,30 +19,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ChargepointconfigurationApplication implements CommandLineRunner {
 
-  private final UserRepository userRepository;
   private final ChargepointRepository chargepointRepository;
   private final FirmwareRepository firmwareRepository;
-  private final ConfigurationRepository configurationRepository;
   private final CustomLogger logger;
+  private final String websocketUrl;
+  private final int websocketPort;
 
-
-  /**
-   * The class's constructor.<br>
-   * It requires the UserRepository, but it is auto-wired thanks to Spring Boot.
-   *
-   * @param userRepository UserRepository.
-   */
   @Autowired
-  public ChargepointconfigurationApplication(UserRepository userRepository,
-                                             ChargepointRepository chargepointRepository,
+  public ChargepointconfigurationApplication(ChargepointRepository chargepointRepository,
                                              FirmwareRepository firmwareRepository,
-                                             ConfigurationRepository configurationRepository,
-                                             CustomLogger customLogger) {
-    this.userRepository = userRepository;
+                                             CustomLogger customLogger,
+                                             @Value("${websocket.url}")
+                                             String websocketUrl,
+                                             @Value("${websocket.port}")
+                                             int websocketPort) {
     this.chargepointRepository = chargepointRepository;
     this.firmwareRepository = Objects.requireNonNull(firmwareRepository);
-    this.configurationRepository = configurationRepository;
     this.logger = customLogger;
+    this.websocketUrl = websocketUrl;
+    this.websocketPort = websocketPort;
   }
 
 
@@ -64,25 +58,15 @@ public class ChargepointconfigurationApplication implements CommandLineRunner {
    */
   @Override
   public void run(String... args) throws Exception {
-    var websocketUrl = System.getenv("WEBSOCKET_URL");
-    var websocketPortString = System.getenv("WEBSOCKET_PORT");
-    if (websocketUrl == null || websocketPortString == null) {
-      throw new IllegalStateException("Missing websocket configuration url and/or port.");
-    }
-    try {
-      var websocketPort = Integer.parseInt(websocketPortString);
-      Thread.ofPlatform().start(() -> {
-        var server = new ConfigurationServer(
-                new InetSocketAddress(websocketUrl, websocketPort),
-                chargepointRepository,
-                firmwareRepository,
-                logger
-        );
-        server.setReuseAddr(true);
-        server.run();
-      });
-    } catch (NumberFormatException e) {
-      throw new IllegalStateException("Websocket port invalid value: " + websocketPortString);
-    }
+    Thread.ofPlatform().start(() -> {
+      var server = new ConfigurationServer(
+              new InetSocketAddress(websocketUrl, websocketPort),
+              chargepointRepository,
+              firmwareRepository,
+              logger
+      );
+      server.setReuseAddr(true);
+      server.run();
+    });
   }
 }

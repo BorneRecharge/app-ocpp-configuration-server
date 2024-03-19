@@ -2,7 +2,9 @@ import { PageRequest } from "../sharedComponents/DisplayTable"
 import { UserInformation } from "./userController";
 
 // Define backend server port
+// TODO port is configurable
 export const BACKEND_PORT = 8080
+export const WEBSOCKET_PATH = "/websocket/chargepoint"
 
 function filterOrderToAPI(order: FilterOrder) {
     switch (order) {

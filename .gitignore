@@ -14,7 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -36,3 +36,5 @@ build/
 src/front/build/
 src/front/node_modules/
 src/main/resources/web/
+
+src/main/resources/application-dev.properties

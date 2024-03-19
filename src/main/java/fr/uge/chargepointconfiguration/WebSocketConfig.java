@@ -1,5 +1,6 @@
 package fr.uge.chargepointconfiguration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -14,6 +15,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+  private final String websocketPath;
+
+  public WebSocketConfig(@Value("${websocket.path}") String websocketPath) {
+    this.websocketPath = websocketPath;
+  }
+
   /**
    * Register a new websocket handler.
    *
@@ -21,7 +28,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
    */
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    registry.addHandler(new WebSocketHandler(), "/websocket/chargepoint")
+    registry.addHandler(new WebSocketHandler(), websocketPath)
             .setAllowedOrigins("*"); //TODO: maybe check CORS
   }
 
@@ -31,7 +38,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
    * @return WebSocketHandler.
    */
   @Bean
-  public org.springframework.web.socket.WebSocketHandler myHandler() {
+  public WebSocketHandler myHandler() {
     return new WebSocketHandler();
   }
 
