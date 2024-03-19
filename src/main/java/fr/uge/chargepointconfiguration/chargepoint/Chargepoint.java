@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.chargepoint;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.configuration.Configuration;
 import fr.uge.chargepointconfiguration.firmware.Firmware;
 import fr.uge.chargepointconfiguration.status.StatusDto;
@@ -27,7 +26,7 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "chargepoint")
-public class Chargepoint implements DtoEntity<ChargepointDto> {
+public class Chargepoint {
 
   /**
    * The mods which a machine can be.<br>
@@ -303,7 +302,7 @@ public class Chargepoint implements DtoEntity<ChargepointDto> {
            + '}';
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public ChargepointDto toDto() {
     var statusDto = new StatusDto(
             Timestamp.valueOf(lastUpdate),

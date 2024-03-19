@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.firmware;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.typeallowed.TypeAllowed;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "firmware")
-public class Firmware implements DtoEntity<FirmwareDto> {
+public class Firmware {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -129,7 +128,7 @@ public class Firmware implements DtoEntity<FirmwareDto> {
     return Objects.hash(id, url, version, constructor, typesAllowed);
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public FirmwareDto toDto() {
     return new FirmwareDto(
         id,

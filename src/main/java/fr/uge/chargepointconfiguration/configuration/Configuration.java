@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.configuration;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.firmware.Firmware;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,7 +22,7 @@ import org.hibernate.annotations.CreationTimestamp;
 */
 @Entity
 @Table(name = "configuration")
-public class Configuration implements DtoEntity<ConfigurationDto> {
+public class Configuration {
 
   public static final int NO_CONFIG_ID = -1;
 
@@ -174,7 +173,7 @@ public class Configuration implements DtoEntity<ConfigurationDto> {
     return Objects.hash(id, name, description, lastEdit, configuration, firmware);
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public ConfigurationDto toDto() {
     return new ConfigurationDto(
         id,

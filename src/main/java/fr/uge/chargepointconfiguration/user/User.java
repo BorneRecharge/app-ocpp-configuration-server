@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.user;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -25,7 +24,7 @@ import org.hibernate.annotations.SQLRestriction;
       where id = ?
       """)
 @SQLRestriction("not is_deleted")
-public class User implements DtoEntity<UserDto> {
+public class User {
 
   /**
    * Role enum represents different roles that a User can have in the application.<br>
@@ -228,7 +227,7 @@ public class User implements DtoEntity<UserDto> {
     return Objects.hash(id, email, lastName, firstName, password, role, isDeleted);
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public UserDto toDto() {
     return new UserDto(
         id,

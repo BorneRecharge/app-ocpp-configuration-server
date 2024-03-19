@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.typeallowed;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.firmware.Firmware;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +17,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "type_allowed")
-public class TypeAllowed implements DtoEntity<TypeAllowedDto> {
+public class TypeAllowed {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,7 +68,7 @@ public class TypeAllowed implements DtoEntity<TypeAllowedDto> {
   @ManyToMany(mappedBy = "typesAllowed")
   private Set<Firmware> firmwares;
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public TypeAllowedDto toDto() {
     return new TypeAllowedDto(
         id,

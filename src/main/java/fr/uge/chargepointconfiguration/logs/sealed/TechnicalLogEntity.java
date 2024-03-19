@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.logs.sealed;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.logs.technical.TechnicalLogDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "technical_logs")
-public final class TechnicalLogEntity implements LogEntity, DtoEntity<TechnicalLogDto> {
+public final class TechnicalLogEntity implements LogEntity {
 
   /**
    * Component enum represents different components where a log can be created.<br>
@@ -213,7 +212,7 @@ public final class TechnicalLogEntity implements LogEntity, DtoEntity<TechnicalL
            + '}';
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public TechnicalLogDto toDto() {
     return new TechnicalLogDto(
         id,

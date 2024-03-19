@@ -1,6 +1,5 @@
 package fr.uge.chargepointconfiguration.logs.sealed;
 
-import fr.uge.chargepointconfiguration.DtoEntity;
 import fr.uge.chargepointconfiguration.chargepoint.Chargepoint;
 import fr.uge.chargepointconfiguration.logs.business.BusinessLogDto;
 import fr.uge.chargepointconfiguration.user.User;
@@ -28,7 +27,7 @@ import org.hibernate.annotations.CreationTimestamp;
  */
 @Entity
 @Table(name = "business_logs")
-public final class BusinessLogEntity implements LogEntity, DtoEntity<BusinessLogDto> {
+public final class BusinessLogEntity implements LogEntity {
 
   /**
    * Category attach to this log.<br>
@@ -202,7 +201,7 @@ public final class BusinessLogEntity implements LogEntity, DtoEntity<BusinessLog
             getCompleteLog());
   }
 
-  @Override
+  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public BusinessLogDto toDto() {
     return new BusinessLogDto(this.id,
         Timestamp.valueOf(date),
