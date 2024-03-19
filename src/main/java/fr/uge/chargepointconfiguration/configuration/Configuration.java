@@ -173,7 +173,6 @@ public class Configuration {
     return Objects.hash(id, name, description, lastEdit, configuration, firmware);
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public ConfigurationDto toDto() {
     return new ConfigurationDto(
         id,

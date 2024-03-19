@@ -201,7 +201,6 @@ public final class BusinessLogEntity implements LogEntity {
             getCompleteLog());
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public BusinessLogDto toDto() {
     return new BusinessLogDto(this.id,
         Timestamp.valueOf(date),

@@ -212,7 +212,6 @@ public final class TechnicalLogEntity implements LogEntity {
            + '}';
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public TechnicalLogDto toDto() {
     return new TechnicalLogDto(
         id,

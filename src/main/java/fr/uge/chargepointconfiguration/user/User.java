@@ -227,7 +227,6 @@ public class User {
     return Objects.hash(id, email, lastName, firstName, password, role, isDeleted);
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public UserDto toDto() {
     return new UserDto(
         id,

@@ -302,7 +302,6 @@ public class Chargepoint {
            + '}';
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public ChargepointDto toDto() {
     var statusDto = new StatusDto(
             Timestamp.valueOf(lastUpdate),

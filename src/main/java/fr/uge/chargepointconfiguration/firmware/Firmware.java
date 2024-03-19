@@ -128,7 +128,6 @@ public class Firmware {
     return Objects.hash(id, url, version, constructor, typesAllowed);
   }
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public FirmwareDto toDto() {
     return new FirmwareDto(
         id,

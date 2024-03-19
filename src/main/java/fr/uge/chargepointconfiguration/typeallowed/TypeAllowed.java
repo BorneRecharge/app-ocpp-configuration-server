@@ -68,7 +68,6 @@ public class TypeAllowed {
   @ManyToMany(mappedBy = "typesAllowed")
   private Set<Firmware> firmwares;
 
-  @SuppressWarnings({"checkstyle:MissingJavadocMethod"})
   public TypeAllowedDto toDto() {
     return new TypeAllowedDto(
         id,
