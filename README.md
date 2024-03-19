@@ -33,9 +33,6 @@ TODO : Explain the installation process !
 
 ## Running program
 You must set those environment variables in IntelliJ in the edit project configuration:
-- DB_ADDRESS=<*test database url*>;
-- DB_PASSWORD=<*test database password*>;
-- DB_USERNAME=<*test database username*>;
 - FINAL_WS_SERVER_ADDRESS=<*next supervisor server address>;
 - FS_HOST=<*ftp server address*>;
 - FS_PASSWORD=<*ftp password*>;

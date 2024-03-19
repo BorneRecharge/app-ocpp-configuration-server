@@ -302,8 +302,8 @@ public class ChargepointManagerTest {
             JsonParser.objectToJsonString(bootNotifMessage)
     );
     var sentMessage = chargepointManager.processMessage(request);
-    var actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+    var actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ConfigurationTranscriptor.LIGHT_INTENSITY
             .getOcpp16Key()
             .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
@@ -316,48 +316,50 @@ public class ChargepointManagerTest {
             JsonParser.objectToJsonString(responseFromTheChargepoint)
     );
     sentMessage = chargepointManager.processMessage(response);
-    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ConfigurationTranscriptor.CHARGEPOINT_IDENTITY
             .getOcpp16Key()
             .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
             actualResponse.key());
     assertEquals("Borne-Test", actualResponse.value());
     sentMessage = chargepointManager.processMessage(response);
-    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ConfigurationTranscriptor.LOCAL_AUTH_LIST
             .getOcpp16Key()
             .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
             actualResponse.key());
     assertEquals("true", actualResponse.value());
     sentMessage = chargepointManager.processMessage(response);
-    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ConfigurationTranscriptor.STATION_MAX_CURRENT
             .getOcpp16Key()
             .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
             actualResponse.key());
     assertEquals("20", actualResponse.value());
     sentMessage = chargepointManager.processMessage(response);
-    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
     assertEquals(ConfigurationTranscriptor.CHARGEPOINT_IDENTITY
             .getOcpp16Key()
             .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
             actualResponse.key());
     assertEquals("dépasse les bornes", actualResponse.value());
+    if (System.getenv("FINAL_WS_SERVER_ADDRESS") != null) {
+      sentMessage = chargepointManager.processMessage(response);
+      assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
+      actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
+      assertEquals(ConfigurationTranscriptor.NETWORK_PROFILE
+                      .getOcpp16Key()
+                      .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
+              actualResponse.key());
+      assertEquals(System.getenv("FINAL_WS_SERVER_ADDRESS"), actualResponse.value());
+    }
     sentMessage = chargepointManager.processMessage(response);
-    actualResponse = (ChangeConfigurationRequest16) sentMessage.orElseThrow();
-    assertEquals(ChangeConfigurationRequest16.class, sentMessage.orElseThrow().getClass());
-    assertEquals(ConfigurationTranscriptor.NETWORK_PROFILE
-            .getOcpp16Key()
-            .getFirmwareKeyAccordingToVersion(bootNotifMessage.firmwareVersion()),
-            actualResponse.key());
-    assertEquals(System.getenv("FINAL_WS_SERVER_ADDRESS"), actualResponse.value());
-    sentMessage = chargepointManager.processMessage(response);
-    var resetRequest = (ResetRequest16) sentMessage.orElseThrow();
     assertEquals(ResetRequest16.class, sentMessage.orElseThrow().getClass());
+    var resetRequest = (ResetRequest16) sentMessage.orElseThrow();
     assertEquals(ResetType.Hard, resetRequest.type());
     sentMessage = chargepointManager.processMessage(response);
     var finalSentMessage = sentMessage;
