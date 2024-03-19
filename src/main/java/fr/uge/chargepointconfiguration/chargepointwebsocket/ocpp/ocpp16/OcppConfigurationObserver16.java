@@ -19,7 +19,8 @@ import fr.uge.chargepointconfiguration.logs.sealed.BusinessLogEntity;
 import fr.uge.chargepointconfiguration.logs.sealed.TechnicalLog;
 import fr.uge.chargepointconfiguration.logs.sealed.TechnicalLogEntity;
 import fr.uge.chargepointconfiguration.typeallowed.TypeAllowed;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -116,7 +117,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
               "unknown chargepoint, serial number : "
                       + bootNotificationRequest16.chargePointSerialNumber()));
       var response = new BootNotificationResponse16(
-              LocalDateTime.now().toString(),
+              Instant.now(),
               10,
               RegistrationStatus.Rejected
       );
@@ -135,7 +136,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
                       + currentChargepoint.getSerialNumberChargepoint()
                       + ") is authenticated"));
       var response = new BootNotificationResponse16(
-              LocalDateTime.now().toString(),
+              Instant.now(),
               5,
               RegistrationStatus.Accepted
       );
@@ -157,7 +158,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
     chargePointManager.notifyOnConnection();
     // Send BootNotification Response
     var response = new BootNotificationResponse16(
-            LocalDateTime.now().toString(),
+            Instant.now(),
             5,
             RegistrationStatus.Accepted
     );
@@ -324,7 +325,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
     // Dispatch information to users
     chargePointManager.notifyStatusUpdate();
     var firmwareRequest = new UpdateFirmwareRequest16(
-            link, LocalDateTime.now().toString());
+            link, Instant.now());
     sender.sendMessage(firmwareRequest, chargePointManager);
     return Optional.of(firmwareRequest);
   }

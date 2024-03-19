@@ -1,7 +1,8 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
 import org.junit.jupiter.api.Test;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +20,7 @@ class UpdateFirmwareRequest16Test {
     assertDoesNotThrow(() -> {
       new UpdateFirmwareRequest16(
               "location",
-              LocalDateTime.now().toString()
+              Instant.now()
       );
     });
   }
@@ -31,7 +32,7 @@ class UpdateFirmwareRequest16Test {
   public void returnsCorrectLocation() {
     var test = new UpdateFirmwareRequest16(
             "location",
-            LocalDateTime.now().toString()
+            Instant.now()
     );
     assertEquals("location", test.location());
   }
@@ -41,7 +42,7 @@ class UpdateFirmwareRequest16Test {
    */
   @Test
   public void returnsCorrectRetrieveDate() {
-    var date = LocalDateTime.now().toString();
+    var date = Instant.now();
     var test = new UpdateFirmwareRequest16(
             "location",
             date
@@ -56,7 +57,7 @@ class UpdateFirmwareRequest16Test {
   public void throwsExceptionIfLocationIsNull() {
     assertThrows(NullPointerException.class, () -> new UpdateFirmwareRequest16(
             null,
-            LocalDateTime.now().toString()
+            Instant.now()
     ));
   }
 

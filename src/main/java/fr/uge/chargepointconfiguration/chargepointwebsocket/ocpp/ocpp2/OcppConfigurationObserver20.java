@@ -15,9 +15,9 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.data.Reg
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.Component;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.SetVariableData;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.VariableType;
-import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.tools.JsonParser;
-import java.time.LocalDateTime;
+
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,11 +28,10 @@ import java.util.Queue;
 /**
  * Defines the OCPP configuration message for the visitor.
  */
-public class OcppConfigurationObserver2 implements OcppObserver {
+public class OcppConfigurationObserver20 implements OcppObserver {
   private final OcppMessageSender sender;
   private final ChargePointManager chargePointManager;
   private final ChargepointRepository chargepointRepository;
-  private final FirmwareRepository firmwareRepository;
   private final Queue<SetVariableData> queue = new LinkedList<>();
 
   /**
@@ -40,16 +39,13 @@ public class OcppConfigurationObserver2 implements OcppObserver {
    *
    * @param sender                websocket channel to send message
    * @param chargepointRepository charge point repository
-   * @param firmwareRepository    firmware repository
    */
-  public OcppConfigurationObserver2(OcppMessageSender sender,
-                                    ChargePointManager chargePointManager,
-                                    ChargepointRepository chargepointRepository,
-                                    FirmwareRepository firmwareRepository) {
+  public OcppConfigurationObserver20(OcppMessageSender sender,
+                                     ChargePointManager chargePointManager,
+                                     ChargepointRepository chargepointRepository) {
     this.sender = sender;
     this.chargePointManager = chargePointManager;
     this.chargepointRepository = chargepointRepository;
-    this.firmwareRepository = firmwareRepository;
   }
 
   @Override
@@ -87,7 +83,7 @@ public class OcppConfigurationObserver2 implements OcppObserver {
     // If charge point is not found then skip it
     if (currentChargepoint == null) {
       var response = new BootNotificationResponse20(
-              LocalDateTime.now().toString(),
+              Instant.now(),
               5,
               RegistrationStatus.Rejected
       );
@@ -101,11 +97,17 @@ public class OcppConfigurationObserver2 implements OcppObserver {
     chargePointManager.notifyStatusUpdate();
     // Send BootNotification Response
     var response = new BootNotificationResponse20(
-            LocalDateTime.now().toString(),
+            Instant.now(),
             5,
             RegistrationStatus.Accepted
     );
     sender.sendMessage(response, chargePointManager);
+    if (currentChargepoint.getConfiguration() == null) {
+        currentChargepoint.setStatus(Chargepoint.StatusProcess.FINISHED);
+        chargepointRepository.save(currentChargepoint);
+        chargePointManager.notifyStatusUpdate();
+        return;
+    }
     var config = new SetVariablesRequest20(List.of(
             new SetVariableData(
                     "",
@@ -123,11 +125,18 @@ public class OcppConfigurationObserver2 implements OcppObserver {
 
   private void processConfigurationRequest() {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
-    var configuration = currentChargepoint.getConfiguration().getConfiguration();
+    var configuration = currentChargepoint.getConfiguration();
+    if (configuration == null) {
+      currentChargepoint.setStatus(Chargepoint.StatusProcess.FINISHED);
+      chargepointRepository.save(currentChargepoint);
+      // Dispatch information to users
+      chargePointManager.notifyStatusUpdate();
+      return;
+    }
     var mapper = new ObjectMapper();
     HashMap<String, HashMap<String, String>> configMap;
     try {
-      configMap = mapper.readValue(configuration, HashMap.class);
+      configMap = mapper.readValue(configuration.getConfiguration(), HashMap.class);
     } catch (JsonProcessingException e) {
       return;
     }

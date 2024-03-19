@@ -4,7 +4,7 @@ import fr.uge.chargepointconfiguration.chargepoint.ChargepointRepository;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ChargePointManager;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.OcppMessageSender;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.OcppConfigurationObserver16;
-import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.OcppConfigurationObserver2;
+import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.OcppConfigurationObserver20;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
 import java.util.Objects;
@@ -47,11 +47,10 @@ public interface OcppObserver {
               firmwareRepository,
               logger
       );
-      case V2 -> new OcppConfigurationObserver2(
+      case V2 -> new OcppConfigurationObserver20(
               ocppMessageSender,
               chargePointManager,
-              chargepointRepository,
-              firmwareRepository
+              chargepointRepository
       );
     };
   }
