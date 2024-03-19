@@ -8,7 +8,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.11",
-    "@mui/material": "^5.15.1",
+    "@mui/material": "^5.15.14",
     "@mui/x-date-pickers": "^6.19.6",
     "@react-buddy/ide-toolbox": "^2.4.0",
     "@react-buddy/palette-mui": "^5.0.1",
