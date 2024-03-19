@@ -121,7 +121,7 @@ public class ConfigurationService {
                   + "\" ne respecte pas ses contraintes.");
             }
           } catch (NumberFormatException e) {
-            throw new BadRequestException("La clé " + key + " n'existe pas");
+            throw new BadRequestException("La clé " + key + " n'existe pas", e);
           } catch (IllegalAccessException e) {
             throw new AssertionError(e);
           }
@@ -192,7 +192,7 @@ public class ConfigurationService {
       var condition = SearchUtils.computeSpecification(request, Configuration.class);
       return configurationRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -212,7 +212,7 @@ public class ConfigurationService {
       var condition = SearchUtils.computeSpecification(request, Configuration.class);
       return configurationRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 }

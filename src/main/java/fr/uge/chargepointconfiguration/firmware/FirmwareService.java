@@ -66,7 +66,7 @@ public class FirmwareService {
       var condition = SearchUtils.computeSpecification(request, Firmware.class);
       return firmwareRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -87,7 +87,7 @@ public class FirmwareService {
       return firmwareRepository.findAll(condition, pageable)
           .stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 

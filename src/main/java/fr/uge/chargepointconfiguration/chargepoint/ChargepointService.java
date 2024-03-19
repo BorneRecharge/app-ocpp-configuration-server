@@ -97,7 +97,7 @@ public class ChargepointService {
       return chargepointRepository.findAll(condition, pageable)
           .stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -112,7 +112,7 @@ public class ChargepointService {
       var condition = SearchUtils.computeSpecification(request, Chargepoint.class);
       return chargepointRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 

@@ -39,7 +39,7 @@ public class TechnicalLogService {
       var condition = SearchUtils.computeSpecification(request, TechnicalLogEntity.class);
       return technicalLogRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -60,7 +60,7 @@ public class TechnicalLogService {
       return technicalLogRepository.findAll(condition, pageable)
             .stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 }

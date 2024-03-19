@@ -56,7 +56,7 @@ public class BusinessLogService {
       var condition = SearchUtils.computeSpecification(request, BusinessLogEntity.class);
       return businessLogRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -77,7 +77,7 @@ public class BusinessLogService {
       return businessLogRepository.findAll(condition, pageable)
           .stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 }

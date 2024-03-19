@@ -22,7 +22,7 @@ public class JsonParser {
     try {
       return mapper.writeValueAsString(object);
     } catch (JsonProcessingException e) {
-      throw new IllegalArgumentException("Unable to parse object to JSON string : " + e);
+      throw new IllegalArgumentException("Unable to parse object to JSON string : " + e.getMessage(), e);
     }
   }
 
@@ -41,7 +41,7 @@ public class JsonParser {
     try {
       return mapper.readValue(content, type);
     } catch (JsonProcessingException e) {
-      throw new IllegalArgumentException("Unable to parse JSON string to object : " + e);
+      throw new IllegalArgumentException("Unable to parse JSON string to object : " + e.getMessage(), e);
     }
   }
 

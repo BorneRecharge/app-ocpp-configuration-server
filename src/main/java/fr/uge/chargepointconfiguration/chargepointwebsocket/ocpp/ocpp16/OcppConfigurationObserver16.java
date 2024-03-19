@@ -489,7 +489,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
               BusinessLogEntity.Category.CONFIG,
               "couldn't read configuration for the chargepoint ("
                       + currentChargepoint.getSerialNumberChargepoint()
-                      + ")"));
+                      + "): " + e.getMessage()));
     }
   }
 

@@ -134,7 +134,7 @@ public class UserService {
       var condition = SearchUtils.computeSpecification(request, User.class);
       return userRepository.count(condition);
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 
@@ -155,7 +155,7 @@ public class UserService {
       return userRepository.findAll(condition, pageable)
           .stream().toList();
     } catch (IllegalArgumentException e) {
-      throw new BadRequestException("Requête invalide pour les filtres : " + request);
+      throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
 

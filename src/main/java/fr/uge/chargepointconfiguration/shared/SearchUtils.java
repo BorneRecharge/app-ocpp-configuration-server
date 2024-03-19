@@ -94,7 +94,7 @@ public class SearchUtils {
         clazz.getDeclaredField(field);
       } catch (NoSuchFieldException e) {
         throw new IllegalArgumentException("Field %s not found in class %s."
-            .formatted(field, clazz.getName()));
+            .formatted(field, clazz.getName()), e);
       }
     });
   }
