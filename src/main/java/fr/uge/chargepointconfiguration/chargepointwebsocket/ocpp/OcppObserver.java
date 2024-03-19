@@ -7,6 +7,8 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.OcppConf
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.OcppConfigurationObserver20;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
+
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -61,7 +63,7 @@ public interface OcppObserver {
    * @param ocppMessage {@link OcppMessage}.
    * @return {@link OcppMessage}, the message sent in response.
    */
-  Optional<OcppMessage> onMessage(OcppMessage ocppMessage);
+  Optional<OcppMessage> onMessage(OcppMessage ocppMessage) throws IOException;
 
   /**
    * Does something when a connection has been set.
@@ -75,5 +77,5 @@ public interface OcppObserver {
    *
    * @param chargePointManager {@link ChargePointManager}.
    */
-  void onDisconnection(ChargePointManager chargePointManager);
+  void onDisconnection(ChargePointManager chargePointManager) throws IOException;
 }

@@ -17,6 +17,7 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.SetV
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.VariableType;
 import fr.uge.chargepointconfiguration.tools.JsonParser;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class OcppConfigurationObserver20 implements OcppObserver {
   }
 
   @Override
-  public Optional<OcppMessage> onMessage(OcppMessage ocppMessage) {
+  public Optional<OcppMessage> onMessage(OcppMessage ocppMessage) throws IOException {
     switch (ocppMessage) {
       case BootNotificationRequest20 b -> processBootNotification(b);
       case SetVariablesResponse20 r -> processConfigurationResponse(r);
@@ -71,7 +72,7 @@ public class OcppConfigurationObserver20 implements OcppObserver {
   }
 
   private void processBootNotification(
-          BootNotificationRequest20 bootNotificationRequest) {
+          BootNotificationRequest20 bootNotificationRequest) throws IOException {
 
     // Get charge point from database
     chargePointManager.setCurrentChargepoint(
@@ -123,7 +124,7 @@ public class OcppConfigurationObserver20 implements OcppObserver {
     }
   }
 
-  private void processConfigurationRequest() {
+  private void processConfigurationRequest() throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     var configuration = currentChargepoint.getConfiguration();
     if (configuration == null) {
@@ -177,7 +178,7 @@ public class OcppConfigurationObserver20 implements OcppObserver {
     }
   }
 
-  private void processFirmwareRequest() {
+  private void processFirmwareRequest() throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     currentChargepoint.setStatus(Chargepoint.StatusProcess.PROCESSING);
     // Dispatch information to users

@@ -41,6 +41,7 @@ public class WebSecurityConfig {
                         "/assets/**")
                       .permitAll()
                       .requestMatchers("/", "/logout", "/about").permitAll()
+                      .requestMatchers("/ocpp/**").permitAll()
                       .anyRequest().authenticated()
           )
           .formLogin(formLogin -> formLogin.loginPage("/").permitAll()
@@ -89,7 +90,6 @@ public class WebSecurityConfig {
    * @param userRepository The user's repository.
    * @return An authentication provider for the user.
    */
-  @Autowired
   @Bean
   public DaoAuthenticationProvider authenticationProvider(UserRepository userRepository) {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

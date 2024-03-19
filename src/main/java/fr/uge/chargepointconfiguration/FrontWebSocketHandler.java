@@ -1,7 +1,6 @@
 package fr.uge.chargepointconfiguration;
 
 import fr.uge.chargepointconfiguration.chargepoint.notification.Notification;
-import fr.uge.chargepointconfiguration.chargepoint.notification.WebSocketNotification;
 import fr.uge.chargepointconfiguration.tools.JsonParser;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 /**
  * Define the handler which manage clients websocket connection.
  */
-public class WebSocketHandler extends TextWebSocketHandler {
+public class FrontWebSocketHandler extends TextWebSocketHandler {
   private static final Object lock = new Object();
   private static final ArrayList<WebSocketSession> usersSession = new ArrayList<>();
 

@@ -20,6 +20,7 @@ import fr.uge.chargepointconfiguration.logs.sealed.TechnicalLog;
 import fr.uge.chargepointconfiguration.logs.sealed.TechnicalLogEntity;
 import fr.uge.chargepointconfiguration.typeallowed.TypeAllowed;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -66,7 +67,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
   }
 
   @Override
-  public Optional<OcppMessage> onMessage(OcppMessage ocppMessage) {
+  public Optional<OcppMessage> onMessage(OcppMessage ocppMessage) throws IOException {
     if (ocppMessage == null) {
       return processDefaultMessage();
     }
@@ -86,7 +87,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
   }
 
   @Override
-  public void onDisconnection(ChargePointManager chargePointManager) {
+  public void onDisconnection(ChargePointManager chargePointManager) throws IOException {
     if (chargePointManager.getCurrentChargepoint() == null) {
       lastOrderModeOn = false;
       loaded = false;
@@ -102,7 +103,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
    * @param bootNotificationRequest16 {@link BootNotificationRequest16}.
    */
   private Optional<OcppMessage> processBootNotification(
-          BootNotificationRequest16 bootNotificationRequest16) {
+          BootNotificationRequest16 bootNotificationRequest16) throws IOException {
     firmwareVersion = bootNotificationRequest16.firmwareVersion();
     // Get charge point from database
     chargePointManager.setCurrentChargepoint(
@@ -174,7 +175,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
    * It searches in database the configuration for the chargepoint,
    * loads the key-value and sends a {@link ChangeConfigurationRequest16} for the chargepoint.<br>
    */
-  private Optional<OcppMessage> processConfigurationRequest() {
+  private Optional<OcppMessage> processConfigurationRequest() throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     if (queue.isEmpty() && !loaded) {
       loadKeyValue();
@@ -218,7 +219,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
    */
   private Optional<OcppMessage> processConfigurationResponse(
           ChangeConfigurationResponse16 response
-  ) {
+  ) throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     return switch (response.status()) {
       case Accepted, RebootRequired -> processConfigurationRequest();
@@ -279,7 +280,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
    * The firmware target is 5.8.7, and the current target is 5.4.8.<br>
    * We upgrade to 5.5 > 5.6 > 5.7 > 5.8.
    */
-  private Optional<OcppMessage> processFirmwareRequest() {
+  private Optional<OcppMessage> processFirmwareRequest() throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     if (currentChargepoint.getConfiguration() == null) {
       currentChargepoint.setStatus(Chargepoint.StatusProcess.PENDING);
@@ -394,7 +395,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
     return Optional.empty();
   }
 
-  private Optional<OcppMessage> processResetRequest() {
+  private Optional<OcppMessage> processResetRequest() throws IOException {
     var reset = new ResetRequest16(ResetType.Hard);
     sender.sendMessage(reset, chargePointManager);
     return Optional.of(reset);
@@ -410,7 +411,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
    */
   private Optional<OcppMessage> processFirmwareStatusResponse(
           FirmwareStatusNotificationRequest16 f
-  ) {
+  ) throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     return switch (f.status()) {
       case Installed -> {
@@ -494,7 +495,7 @@ public class OcppConfigurationObserver16 implements OcppObserver {
     }
   }
 
-  private Optional<OcppMessage> processDefaultMessage() {
+  private Optional<OcppMessage> processDefaultMessage() throws IOException {
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     if (currentChargepoint == null) {
       return processResetRequest();

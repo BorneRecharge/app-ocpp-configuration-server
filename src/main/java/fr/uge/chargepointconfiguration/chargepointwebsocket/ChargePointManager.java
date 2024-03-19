@@ -1,6 +1,6 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket;
 
-import fr.uge.chargepointconfiguration.WebSocketHandler;
+import fr.uge.chargepointconfiguration.FrontWebSocketHandler;
 import fr.uge.chargepointconfiguration.chargepoint.Chargepoint;
 import fr.uge.chargepointconfiguration.chargepoint.ChargepointRepository;
 import fr.uge.chargepointconfiguration.chargepoint.notification.Notification;
@@ -11,6 +11,8 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppObserver;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppVersion;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
+
+import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -81,7 +83,7 @@ public class ChargePointManager {
    *
    * @param webSocketMessage The {@link WebSocketMessage} sent to our server.
    */
-  public Optional<OcppMessage> processMessage(WebSocketMessage webSocketMessage) {
+  public Optional<OcppMessage> processMessage(WebSocketMessage webSocketMessage) throws IOException {
     Objects.requireNonNull(webSocketMessage);
     Optional<OcppMessage> message;
     if (webSocketMessage.isRequest()) {
@@ -113,21 +115,21 @@ public class ChargePointManager {
       chargepointRepository.save(currentChargepoint);
       notifyStatusUpdate();
       var notification = Notification.notificationOnDisconnect(currentChargepoint);
-      WebSocketHandler.sendMessageToUsers(notification);
+      FrontWebSocketHandler.sendMessageToUsers(notification);
     }
   }
 
   /**
    * Does something if there is an error.
    */
-  public void onError(Exception ex) {
+  public void onError(Throwable t) {
     if (currentChargepoint != null) {
-      currentChargepoint.setError(ex.toString());
+      currentChargepoint.setError(t.toString());
       currentChargepoint.setStatus(Chargepoint.StatusProcess.FAILED);
       chargepointRepository.save(currentChargepoint);
       notifyStatusUpdate();
       var notification = Notification.notificationOnError(currentChargepoint);
-      WebSocketHandler.sendMessageToUsers(notification);
+      FrontWebSocketHandler.sendMessageToUsers(notification);
     }
   }
 
@@ -136,7 +138,7 @@ public class ChargePointManager {
    */
   public void notifyStatusUpdate() {
     var notification = Notification.notificationOnStatusChange(currentChargepoint);
-    WebSocketHandler.sendMessageToUsers(
+    FrontWebSocketHandler.sendMessageToUsers(
             notification
     );
   }
@@ -148,7 +150,7 @@ public class ChargePointManager {
   public void notifyProcess() {
     var notification = Notification.notificationOnFinishedProcess(currentChargepoint);
     if (notification.isPresent()) {
-      WebSocketHandler.sendMessageToUsers(
+      FrontWebSocketHandler.sendMessageToUsers(
               notification.orElseThrow()
       );
     }
@@ -160,6 +162,6 @@ public class ChargePointManager {
    */
   public void notifyOnConnection() {
     var notification = Notification.notificationOnConnection(currentChargepoint);
-    WebSocketHandler.sendMessageToUsers(notification);
+    FrontWebSocketHandler.sendMessageToUsers(notification);
   }
 }

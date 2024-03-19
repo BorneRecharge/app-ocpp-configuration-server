@@ -23,9 +23,9 @@ import fr.uge.chargepointconfiguration.logs.CustomLogger;
 import fr.uge.chargepointconfiguration.tools.JsonParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -131,7 +131,7 @@ public class ChargepointManagerTest {
    * Should send a {@link BootNotificationResponse16} with a rejected status.
    */
   @Test
-  public void onMessageShouldRejectUnknownChargepoint() {
+  public void onMessageShouldRejectUnknownChargepoint() throws IOException {
     var chargepointManager = instantiate();
     var bootNotifMessage = new BootNotificationRequest16("Testor Corp",
             "A big chargepoint",
@@ -156,7 +156,7 @@ public class ChargepointManagerTest {
    * Should accept a known chargepoint even if it hasn't a configuration.
    */
   @Test
-  public void onMessageShouldAcceptChargepointWithoutConfiguration() {
+  public void onMessageShouldAcceptChargepointWithoutConfiguration() throws IOException {
     var chargepointManager = instantiate();
     var bootNotifMessage = new BootNotificationRequest16("Alfen BV",
             "Borne to be alive",
@@ -182,7 +182,7 @@ public class ChargepointManagerTest {
    * until it is done.
    */
   @Test
-  public void onMessageShouldSendAUpdateFirmwareRequestUntilIsDone() {
+  public void onMessageShouldSendAUpdateFirmwareRequestUntilIsDone() throws IOException {
     var chargepointManager = instantiate();
     var bootNotifMessage = new BootNotificationRequest16("Alfen BV",
             "Borne to be alive",
@@ -286,7 +286,7 @@ public class ChargepointManagerTest {
    * until the configuration is done.
    */
   @Test
-  public void onMessageShouldSendAChangeConfigurationRequestUntilIsDone() {
+  public void onMessageShouldSendAChangeConfigurationRequestUntilIsDone() throws IOException {
     var chargepointManager = instantiate();
     var bootNotifMessage = new BootNotificationRequest16("Alfen BV",
             "Borne to be alive",
