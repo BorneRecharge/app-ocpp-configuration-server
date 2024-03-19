@@ -92,7 +92,7 @@ public class ChargePointManager {
       pendingRequest = null;
     }
     if (message.isEmpty()) {
-      return ocppObserver.onMessage(null);
+      return Optional.empty();
     }
     var ocppMessage = message.orElseThrow();
     // Weird message, ignore it.
