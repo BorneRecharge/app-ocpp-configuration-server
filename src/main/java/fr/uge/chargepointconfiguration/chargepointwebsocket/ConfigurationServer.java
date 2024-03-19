@@ -134,7 +134,7 @@ public class ConfigurationServer extends WebSocketServer {
   @Override
   public void onStart() {
     logger.info(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
-            "server started successfully"));
+            "server started successfully: " + getAddress()));
   }
 
   /**
