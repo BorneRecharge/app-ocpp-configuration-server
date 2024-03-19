@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      # Check for updates at 00:00 UTC
+      time: "00:00"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      # Check for updates at 00:00 UTC
+      time: "00:00"
+
+  - package-ecosystem: "npm"
+    directory: "/src/front/"
+    schedule:
+      interval: "weekly"
+      # Check for updates at 00:00 UTC
+      time: "00:00"
