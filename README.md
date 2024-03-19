@@ -34,15 +34,9 @@ TODO : Explain the installation process !
 ## Running program
 You must set those environment variables in IntelliJ in the edit project configuration:
 - FINAL_WS_SERVER_ADDRESS=<*next supervisor server address>;
-- FS_HOST=<*ftp server address*>;
-- FS_PASSWORD=<*ftp password*>;
-- FS_PORT=<*ftp port*>
-- FS_USER=<*ftp user*>;
 - MYSQL_ADDON_USER=<*database username*>;
 - MYSQL_DB_ADDRESS=<*database url*>;
 - MYSQL_DB_PASSWORD=<*database password*>;
-- WEBSOCKET_PORT=<*websocket port*>;
-- WEBSOCKET_URL=<*websocket ip address*>;
 
 ## Running check style
 You should install the plugin in IntelliJ CheckStyle-IDEA and set the *checkstyle.xml* in the plugin configuration.
