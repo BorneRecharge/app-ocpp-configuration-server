@@ -14,6 +14,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.EOFException;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Objects;
@@ -76,6 +77,11 @@ public class OcppWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
         super.handleTransportError(session, exception);
+        if (exception instanceof EOFException) {
+            logger.warn(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
+                    "connection closed by " + session.getRemoteAddress()));
+            return;
+        }
         logger.error(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
                 "an error occurred on connection "
                         + session.getRemoteAddress()
