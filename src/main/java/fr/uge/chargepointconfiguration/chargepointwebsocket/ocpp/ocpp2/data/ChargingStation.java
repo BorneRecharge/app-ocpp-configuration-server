@@ -12,5 +12,6 @@ package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data;
 public record ChargingStation(String model,
                               String vendorName,
                               String serialNumber,
-                              String firmwareVersion) {
+                              String firmwareVersion,
+                              Modem modem) {
 }
