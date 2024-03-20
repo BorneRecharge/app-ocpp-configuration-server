@@ -13,7 +13,6 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 /**
  * Defines the web socket configuration.
  */
-
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
@@ -23,10 +22,11 @@ public class WebSocketConfig implements WebSocketConfigurer {
   private final CustomLogger logger;
   private final String websocketPath;
 
-  public WebSocketConfig(ChargepointRepository chargepointRepository,
-                         FirmwareRepository firmwareRepository,
-                         CustomLogger logger,
-                         @Value("${websocket.path}") String websocketPath) {
+  public WebSocketConfig(
+      ChargepointRepository chargepointRepository,
+      FirmwareRepository firmwareRepository,
+      CustomLogger logger,
+      @Value("${websocket.path}") String websocketPath) {
     this.chargepointRepository = chargepointRepository;
     this.firmwareRepository = firmwareRepository;
     this.logger = logger;
@@ -41,12 +41,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry
-            .addHandler(new OcppWebSocketHandler(
-                    chargepointRepository,
-                    firmwareRepository,
-                    logger
-            ), "/ocpp/**")
-            .addHandler(new FrontWebSocketHandler(), websocketPath)
-            .setAllowedOrigins("*"); //TODO: maybe check CORS
+        .addHandler(
+            new OcppWebSocketHandler(chargepointRepository, firmwareRepository, logger), "/ocpp/**")
+        .addHandler(new FrontWebSocketHandler(), websocketPath)
+        .setAllowedOrigins("*"); // TODO: maybe check CORS
   }
 }

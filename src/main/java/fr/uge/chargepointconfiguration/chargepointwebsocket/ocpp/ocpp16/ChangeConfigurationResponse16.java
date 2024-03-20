@@ -11,7 +11,7 @@ import java.util.Objects;
  *               If the key has been accepted or not.
  */
 public record ChangeConfigurationResponse16(ConfigurationStatus status)
-        implements OcppMessageResponse {
+    implements OcppMessageResponse {
 
   /**
    * {@link ChangeConfigurationResponse16}'s constructor.

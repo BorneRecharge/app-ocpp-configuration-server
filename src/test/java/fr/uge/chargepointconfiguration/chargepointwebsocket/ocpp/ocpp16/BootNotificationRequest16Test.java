@@ -1,10 +1,11 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test class for the {@link BootNotificationRequest16}.
@@ -18,12 +19,11 @@ class BootNotificationRequest16Test {
   public void correctConstructorShouldNotThrowException() {
     assertDoesNotThrow(() -> {
       new BootNotificationRequest16(
-              "chargePointVendor",
-              "chargePointModel",
-              "chargePointSerialNumber",
-              "chargeBoxSerialNumber",
-              "firmwareVersion"
-      );
+          "chargePointVendor",
+          "chargePointModel",
+          "chargePointSerialNumber",
+          "chargeBoxSerialNumber",
+          "firmwareVersion");
     });
   }
 
@@ -33,12 +33,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointVendor() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        "firmwareVersion");
     assertEquals("chargePointVendor", test.chargePointVendor());
   }
 
@@ -48,12 +47,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointModel() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        "firmwareVersion");
     assertEquals("chargePointModel", test.chargePointModel());
   }
 
@@ -63,12 +61,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointSerialNumber() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        "firmwareVersion");
     assertEquals("chargePointSerialNumber", test.chargePointSerialNumber());
   }
 
@@ -78,12 +75,7 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointSerialNumberEvenIfNull() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            null,
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor", "chargePointModel", null, "chargeBoxSerialNumber", "firmwareVersion");
     assertNull(test.chargePointSerialNumber());
   }
 
@@ -93,12 +85,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointBoxSerialNumber() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        "firmwareVersion");
     assertEquals("chargeBoxSerialNumber", test.chargeBoxSerialNumber());
   }
 
@@ -108,12 +99,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointBoxSerialNumberEvenIfNull() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            null,
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        null,
+        "firmwareVersion");
     assertNull(test.chargeBoxSerialNumber());
   }
 
@@ -123,12 +113,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointFirmwareVersion() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        "firmwareVersion");
     assertEquals("firmwareVersion", test.firmwareVersion());
   }
 
@@ -138,12 +127,11 @@ class BootNotificationRequest16Test {
   @Test
   public void returnsCorrectChargepointFirmwareVersionEvenIfNull() {
     var test = new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            null
-    );
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        null);
     assertNull(test.firmwareVersion());
   }
 
@@ -152,13 +140,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfVendorIsNull() {
-    assertThrows(NullPointerException.class, () -> new BootNotificationRequest16(
+    assertThrows(
+        NullPointerException.class,
+        () -> new BootNotificationRequest16(
             null,
             "chargePointModel",
             "chargePointSerialNumber",
             "chargeBoxSerialNumber",
-            "firmwareVersion"
-    ));
+            "firmwareVersion"));
   }
 
   /**
@@ -166,13 +155,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfModelIsNull() {
-    assertThrows(NullPointerException.class, () -> new BootNotificationRequest16(
+    assertThrows(
+        NullPointerException.class,
+        () -> new BootNotificationRequest16(
             "chargePointVendor",
             null,
             "chargePointSerialNumber",
             "chargeBoxSerialNumber",
-            "firmwareVersion"
-    ));
+            "firmwareVersion"));
   }
 
   /**
@@ -181,12 +171,7 @@ class BootNotificationRequest16Test {
   @Test
   public void doesNotThrowExceptionIfSerialNumberIsNull() {
     assertDoesNotThrow(() -> new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            null,
-            "chargeBoxSerialNumber",
-            "firmwareVersion"
-    ));
+        "chargePointVendor", "chargePointModel", null, "chargeBoxSerialNumber", "firmwareVersion"));
   }
 
   /**
@@ -195,12 +180,11 @@ class BootNotificationRequest16Test {
   @Test
   public void doesNotThrowExceptionIfBoxSerialNumberIsNull() {
     assertDoesNotThrow(() -> new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            null,
-            "firmwareVersion"
-    ));
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        null,
+        "firmwareVersion"));
   }
 
   /**
@@ -209,12 +193,11 @@ class BootNotificationRequest16Test {
   @Test
   public void doesNotThrowExceptionIfFirmwareVersionIsNull() {
     assertDoesNotThrow(() -> new BootNotificationRequest16(
-            "chargePointVendor",
-            "chargePointModel",
-            "chargePointSerialNumber",
-            "chargeBoxSerialNumber",
-            null
-    ));
+        "chargePointVendor",
+        "chargePointModel",
+        "chargePointSerialNumber",
+        "chargeBoxSerialNumber",
+        null));
   }
 
   /**
@@ -223,14 +206,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfVendorIsIncorrect() {
-    assertThrows(IllegalArgumentException.class,
-            () -> new BootNotificationRequest16(
-                    "More than 20 characters here",
-                    "chargePointModel",
-                    "chargePointSerialNumber",
-                    "chargeBoxSerialNumber",
-                    "firmwareVersion"
-            ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new BootNotificationRequest16(
+            "More than 20 characters here",
+            "chargePointModel",
+            "chargePointSerialNumber",
+            "chargeBoxSerialNumber",
+            "firmwareVersion"));
   }
 
   /**
@@ -239,14 +222,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfModelIsIncorrect() {
-    assertThrows(IllegalArgumentException.class,
-            () -> new BootNotificationRequest16(
-                    "chargePointVendor",
-                    "More than 20 characters here",
-                    "chargePointSerialNumber",
-                    "chargeBoxSerialNumber",
-                    "firmwareVersion"
-            ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new BootNotificationRequest16(
+            "chargePointVendor",
+            "More than 20 characters here",
+            "chargePointSerialNumber",
+            "chargeBoxSerialNumber",
+            "firmwareVersion"));
   }
 
   /**
@@ -255,14 +238,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfSerialNumberIsIncorrect() {
-    assertThrows(IllegalArgumentException.class,
-            () -> new BootNotificationRequest16(
-                    "chargePointVendor",
-                    "chargePointModel",
-                    "More than 25 characters here",
-                    "chargeBoxSerialNumber",
-                    "firmwareVersion"
-            ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new BootNotificationRequest16(
+            "chargePointVendor",
+            "chargePointModel",
+            "More than 25 characters here",
+            "chargeBoxSerialNumber",
+            "firmwareVersion"));
   }
 
   /**
@@ -271,14 +254,14 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfBoxSerialNumberIsIncorrect() {
-    assertThrows(IllegalArgumentException.class,
-            () -> new BootNotificationRequest16(
-                    "chargePointVendor",
-                    "chargePointModel",
-                    "chargePointSerialNumber",
-                    "More than 25 characters here",
-                    "firmwareVersion"
-            ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new BootNotificationRequest16(
+            "chargePointVendor",
+            "chargePointModel",
+            "chargePointSerialNumber",
+            "More than 25 characters here",
+            "firmwareVersion"));
   }
 
   /**
@@ -287,13 +270,13 @@ class BootNotificationRequest16Test {
    */
   @Test
   public void throwsExceptionIfFirmwareVersionIsIncorrect() {
-    assertThrows(IllegalArgumentException.class,
-            () -> new BootNotificationRequest16(
-                    "chargePointVendor",
-                    "chargePointModel",
-                    "chargePointSerialNumber",
-                    "chargeBoxSerialNumber",
-                    "More than 50 characters in this field, so it should not work !"
-            ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new BootNotificationRequest16(
+            "chargePointVendor",
+            "chargePointModel",
+            "chargePointSerialNumber",
+            "chargeBoxSerialNumber",
+            "More than 50 characters in this field, so it should not work !"));
   }
 }

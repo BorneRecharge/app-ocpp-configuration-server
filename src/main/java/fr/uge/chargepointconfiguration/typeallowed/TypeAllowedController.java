@@ -26,7 +26,6 @@ public class TypeAllowedController {
 
   private final TypeAllowedService typeAllowedService;
 
-
   /**
    * FirmwareController's constructor.
    *
@@ -43,11 +42,14 @@ public class TypeAllowedController {
    * @return A list of all type allowed.
    */
   @Operation(summary = "Get all the type allowed")
-  @ApiResponse(responseCode = "200",
-          description = "Found all type allowed",
-          content = { @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = TypeAllowedDto.class))
-          })
+  @ApiResponse(
+      responseCode = "200",
+      description = "Found all type allowed",
+      content = {
+        @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = TypeAllowedDto.class))
+      })
   @GetMapping(value = "/all")
   @PreAuthorize("hasRole('EDITOR')")
   public List<TypeAllowedDto> getAllTypeAllowed() {
@@ -55,22 +57,23 @@ public class TypeAllowedController {
   }
 
   @Operation(summary = "Create a new type allowed")
-  @ApiResponse(responseCode = "201",
+  @ApiResponse(
+      responseCode = "201",
       description = "Type allowed created",
-      content = { @Content(mediaType = "application/json",
-          schema = @Schema(implementation = TypeAllowedDto.class))
+      content = {
+        @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = TypeAllowedDto.class))
       })
   @PostMapping("/create")
   @PreAuthorize("hasRole('EDITOR')")
   public ResponseEntity<TypeAllowedDto> create(
       @io.swagger.v3.oas.annotations.parameters.RequestBody(
-          description = "JSON with all parameters of the new type allowed.",
-          required = true
-      )
-      @RequestBody CreateTypeAllowedDto createTypeAllowedDto
-  ) {
-    return new ResponseEntity<>(typeAllowedService.save(createTypeAllowedDto).toDto(),
-        HttpStatus.CREATED);
+              description = "JSON with all parameters of the new type allowed.",
+              required = true)
+          @RequestBody
+          CreateTypeAllowedDto createTypeAllowedDto) {
+    return new ResponseEntity<>(
+        typeAllowedService.save(createTypeAllowedDto).toDto(), HttpStatus.CREATED);
   }
-
 }

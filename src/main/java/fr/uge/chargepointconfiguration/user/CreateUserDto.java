@@ -10,10 +10,4 @@ package fr.uge.chargepointconfiguration.user;
  * @param role role of the user.
  */
 public record CreateUserDto(
-        String firstName,
-        String lastName,
-        String email,
-        String password,
-        User.Role role
-) {
-}
+    String firstName, String lastName, String email, String password, User.Role role) {}

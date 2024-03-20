@@ -27,8 +27,8 @@ public class BusinessLogService {
    * @param chargepointRepository A ChargepointRepository accessing to database.
    */
   @Autowired
-  public BusinessLogService(BusinessLogRepository businessLogRepository,
-                            ChargepointRepository chargepointRepository) {
+  public BusinessLogService(
+      BusinessLogRepository businessLogRepository, ChargepointRepository chargepointRepository) {
     this.businessLogRepository = businessLogRepository;
     this.chargepointRepository = chargepointRepository;
   }
@@ -40,7 +40,8 @@ public class BusinessLogService {
    * @return a list of business logs by chargepoint.
    */
   public List<BusinessLogEntity> getAllByChargepointId(int chargepointId) {
-    var chargepoint = chargepointRepository.findById(chargepointId)
+    var chargepoint = chargepointRepository
+        .findById(chargepointId)
         .orElseThrow(() -> new EntityNotFoundException("Aucune borne avec l'id " + chargepointId));
     return businessLogRepository.findAllByChargepointOrderByIdDesc(chargepoint);
   }
@@ -74,8 +75,7 @@ public class BusinessLogService {
   public List<BusinessLogEntity> search(String request, PageRequest pageable) {
     try {
       var condition = SearchUtils.computeSpecification(request, BusinessLogEntity.class);
-      return businessLogRepository.findAll(condition, pageable)
-          .stream().toList();
+      return businessLogRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }

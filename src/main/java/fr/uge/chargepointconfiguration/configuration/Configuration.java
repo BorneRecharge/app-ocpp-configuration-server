@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
  * A configuration class representation in the database.
  * A configuration has an Id, a name, a description and
  * the JSON configuration.
-*/
+ */
 @Entity
 @Table(name = "configuration")
 public class Configuration {
@@ -34,11 +34,12 @@ public class Configuration {
   @Column(name = "name", nullable = false, length = 50)
   private String name;
 
-  @Column(name = "description", nullable = false,
-      columnDefinition = "longtext default ''")
+  @Column(name = "description", nullable = false, columnDefinition = "longtext default ''")
   private String description = "";
 
-  @Column(name = "last_edit", nullable = false,
+  @Column(
+      name = "last_edit",
+      nullable = false,
       columnDefinition = "datetime default current_timestamp")
   @CreationTimestamp
   private LocalDateTime lastEdit;
@@ -58,10 +59,7 @@ public class Configuration {
    * @param configuration A JSON containing key and values for your configuration.
    * @param firmware The chargepoint's firmware.
    */
-  public Configuration(String name,
-                       String description,
-                       String configuration,
-                       Firmware firmware) {
+  public Configuration(String name, String description, String configuration, Firmware firmware) {
     this(name, configuration, firmware);
     this.description = Objects.requireNonNull(description);
   }
@@ -72,9 +70,7 @@ public class Configuration {
    * @param name How you want your configuration to be named.
    * @param configuration A JSON containing key and values for your configuration.
    */
-  public Configuration(String name,
-                       String configuration,
-                       Firmware firmware) {
+  public Configuration(String name, String configuration, Firmware firmware) {
     this.name = Objects.requireNonNull(name);
     this.configuration = Objects.requireNonNull(configuration);
     lastEdit = LocalDateTime.now();
@@ -89,10 +85,7 @@ public class Configuration {
    * @param configuration configuration definition
    * @param firmware configuration firmware version
    */
-  public Configuration(int id,
-                       String name,
-                       String configuration,
-                       Firmware firmware) {
+  public Configuration(int id, String name, String configuration, Firmware firmware) {
     this.id = id;
     this.name = Objects.requireNonNull(name);
     this.configuration = Objects.requireNonNull(configuration);
@@ -103,9 +96,7 @@ public class Configuration {
   /**
    * Empty constructor. Should not be called.
    */
-  public Configuration() {
-
-  }
+  public Configuration() {}
 
   public int getId() {
     return id;
@@ -161,11 +152,11 @@ public class Configuration {
     }
     var configuration = (Configuration) o;
     return id == configuration.id
-           && Objects.equals(name, configuration.name)
-           && Objects.equals(description, configuration.description)
-           && Objects.equals(lastEdit, lastEdit)
-           && Objects.equals(this.configuration, configuration.configuration)
-           && Objects.equals(firmware, configuration.firmware);
+        && Objects.equals(name, configuration.name)
+        && Objects.equals(description, configuration.description)
+        && Objects.equals(lastEdit, lastEdit)
+        && Objects.equals(this.configuration, configuration.configuration)
+        && Objects.equals(firmware, configuration.firmware);
   }
 
   @Override
@@ -180,20 +171,18 @@ public class Configuration {
         description,
         Timestamp.valueOf(lastEdit),
         ConfigurationDto.replaceIntToKey(configuration),
-        firmware == null ? null : firmware.toDto()
-    );
-
+        firmware == null ? null : firmware.toDto());
   }
 
   @Override
   public String toString() {
     return "Configuration{"
-           + "id=" + id
-           + ", name='" + name + '\''
-           + ", description='" + description + '\''
-           + ", lastEdit=" + lastEdit
-           + ", configuration='" + configuration + '\''
-           + ", firmware=" + firmware
-           + '}';
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", description='" + description + '\''
+        + ", lastEdit=" + lastEdit
+        + ", configuration='" + configuration + '\''
+        + ", firmware=" + firmware
+        + '}';
   }
 }

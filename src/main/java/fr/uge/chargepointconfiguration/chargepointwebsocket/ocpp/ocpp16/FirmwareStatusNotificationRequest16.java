@@ -11,7 +11,7 @@ import java.util.Objects;
  * @param status {@link FirmwareStatus}.
  */
 public record FirmwareStatusNotificationRequest16(FirmwareStatus status)
-        implements OcppMessageRequest {
+    implements OcppMessageRequest {
 
   /**
    * {@link FirmwareStatusNotificationRequest16}'s constructor.

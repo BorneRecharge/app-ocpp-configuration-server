@@ -1,7 +1,6 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket;
 
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppMessage;
-
 import java.io.IOException;
 
 /**
@@ -16,5 +15,6 @@ public interface OcppMessageSender {
    * @param ocppMessage {@link OcppMessage}.
    * @param chargePointManager {@link ChargePointManager}.
    */
-  void sendMessage(OcppMessage ocppMessage, ChargePointManager chargePointManager) throws IOException;
+  void sendMessage(OcppMessage ocppMessage, ChargePointManager chargePointManager)
+      throws IOException;
 }

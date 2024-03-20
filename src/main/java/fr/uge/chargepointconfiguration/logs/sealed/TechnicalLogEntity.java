@@ -32,7 +32,10 @@ public final class TechnicalLogEntity implements LogEntity {
    * - DATABASE.
    */
   public enum Component {
-    BACKEND, FRONTEND, WEBSOCKET, DATABASE
+    BACKEND,
+    FRONTEND,
+    WEBSOCKET,
+    DATABASE
   }
 
   @Id
@@ -40,8 +43,7 @@ public final class TechnicalLogEntity implements LogEntity {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "date", nullable = false,
-          columnDefinition = "datetime default current_timestamp")
+  @Column(name = "date", nullable = false, columnDefinition = "datetime default current_timestamp")
   @CreationTimestamp
   private LocalDateTime date;
 
@@ -52,10 +54,8 @@ public final class TechnicalLogEntity implements LogEntity {
   @Column(name = "level", nullable = false)
   private String level;
 
-
   @Column(name = "complete_log", nullable = false)
   private String completeLog;
-
 
   /**
    * TechnicalLog's constructor.
@@ -74,9 +74,7 @@ public final class TechnicalLogEntity implements LogEntity {
   /**
    * Empty constructor. Should not be called.
    */
-  public TechnicalLogEntity() {
-
-  }
+  public TechnicalLogEntity() {}
 
   /**
    * Get the id of the log.
@@ -177,48 +175,34 @@ public final class TechnicalLogEntity implements LogEntity {
       return false;
     }
     return getId() == that.getId()
-           && Objects.equals(getDate(), that.getDate())
-           && getComponent() == that.getComponent()
-           && getLevel().equals(that.getLevel())
-           && Objects.equals(getCompleteLog(), that.getCompleteLog());
+        && Objects.equals(getDate(), that.getDate())
+        && getComponent() == that.getComponent()
+        && getLevel().equals(that.getLevel())
+        && Objects.equals(getCompleteLog(), that.getCompleteLog());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(),
-            getDate(),
-            getComponent(),
-            getLevel(),
-            getCompleteLog());
+    return Objects.hash(getId(), getDate(), getComponent(), getLevel(), getCompleteLog());
   }
 
   @Override
   public String text() {
-    return date + " "
-           + "{" + component + "} "
-           + "{" + level + "} "
-           + "(" + id + ") "
-           + completeLog;
+    return date + " " + "{" + component + "} " + "{" + level + "} " + "(" + id + ") " + completeLog;
   }
 
   @Override
   public String toString() {
     return "TechnicalLog{"
-           + "id=" + id
-           + ", date=" + date
-           + ", component=" + component
-           + ", level=" + level
-           + ", completeLog='" + completeLog + '\''
-           + '}';
+        + "id=" + id
+        + ", date=" + date
+        + ", component=" + component
+        + ", level=" + level
+        + ", completeLog='" + completeLog + '\''
+        + '}';
   }
 
   public TechnicalLogDto toDto() {
-    return new TechnicalLogDto(
-        id,
-        Timestamp.valueOf(date),
-        component,
-        level,
-        completeLog
-    );
+    return new TechnicalLogDto(id, Timestamp.valueOf(date), component, level, completeLog);
   }
 }

@@ -32,8 +32,8 @@ public interface OcppMessageParser {
    * @param responseMessage The {@link WebSocketMessage} response sent by the chargepoint.
    * @return An optional of an {@link OcppMessage}.
    */
-  Optional<OcppMessage> parseResponseMessage(WebSocketMessage requestMessage,
-                                             WebSocketMessage responseMessage);
+  Optional<OcppMessage> parseResponseMessage(
+      WebSocketMessage requestMessage, WebSocketMessage responseMessage);
 
   /**
    * Parses the OCPP message into a String.

@@ -16,7 +16,6 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.Comp
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.SetVariableData;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data.VariableType;
 import fr.uge.chargepointconfiguration.tools.JsonParser;
-
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -41,9 +40,10 @@ public class OcppConfigurationObserver20 implements OcppObserver {
    * @param sender                websocket channel to send message
    * @param chargepointRepository charge point repository
    */
-  public OcppConfigurationObserver20(OcppMessageSender sender,
-                                     ChargePointManager chargePointManager,
-                                     ChargepointRepository chargepointRepository) {
+  public OcppConfigurationObserver20(
+      OcppMessageSender sender,
+      ChargePointManager chargePointManager,
+      ChargepointRepository chargepointRepository) {
     this.sender = sender;
     this.chargePointManager = chargePointManager;
     this.chargepointRepository = chargepointRepository;
@@ -62,32 +62,23 @@ public class OcppConfigurationObserver20 implements OcppObserver {
   }
 
   @Override
-  public void onConnection(ChargePointManager chargePointManager) {
-
-  }
+  public void onConnection(ChargePointManager chargePointManager) {}
 
   @Override
-  public void onDisconnection(ChargePointManager chargePointManager) {
+  public void onDisconnection(ChargePointManager chargePointManager) {}
 
-  }
-
-  private void processBootNotification(
-          BootNotificationRequest20 bootNotificationRequest) throws IOException {
+  private void processBootNotification(BootNotificationRequest20 bootNotificationRequest)
+      throws IOException {
 
     // Get charge point from database
     chargePointManager.setCurrentChargepoint(
-            chargepointRepository.findBySerialNumberChargepointAndConstructor(
-                    bootNotificationRequest.chargingStation().serialNumber(),
-                    bootNotificationRequest.chargingStation().vendorName()
-            ));
+        chargepointRepository.findBySerialNumberChargepointAndConstructor(
+            bootNotificationRequest.chargingStation().serialNumber(),
+            bootNotificationRequest.chargingStation().vendorName()));
     var currentChargepoint = chargePointManager.getCurrentChargepoint();
     // If charge point is not found then skip it
     if (currentChargepoint == null) {
-      var response = new BootNotificationResponse20(
-              Instant.now(),
-              5,
-              RegistrationStatus.Rejected
-      );
+      var response = new BootNotificationResponse20(Instant.now(), 5, RegistrationStatus.Rejected);
       sender.sendMessage(response, chargePointManager);
       return;
     }
@@ -97,23 +88,16 @@ public class OcppConfigurationObserver20 implements OcppObserver {
     // Dispatch information to users
     chargePointManager.notifyStatusUpdate();
     // Send BootNotification Response
-    var response = new BootNotificationResponse20(
-            Instant.now(),
-            5,
-            RegistrationStatus.Accepted
-    );
+    var response = new BootNotificationResponse20(Instant.now(), 5, RegistrationStatus.Accepted);
     sender.sendMessage(response, chargePointManager);
     if (currentChargepoint.getConfiguration() == null) {
-        currentChargepoint.setStatus(Chargepoint.StatusProcess.FINISHED);
-        chargepointRepository.save(currentChargepoint);
-        chargePointManager.notifyStatusUpdate();
-        return;
+      currentChargepoint.setStatus(Chargepoint.StatusProcess.FINISHED);
+      chargepointRepository.save(currentChargepoint);
+      chargePointManager.notifyStatusUpdate();
+      return;
     }
     var config = new SetVariablesRequest20(List.of(
-            new SetVariableData(
-                    "",
-                    new Component("none"),
-                    new VariableType("LightIntensity"))));
+        new SetVariableData("", new Component("none"), new VariableType("LightIntensity"))));
     sender.sendMessage(config, chargePointManager);
     switch (currentChargepoint.getStep()) {
       case Chargepoint.Step.CONFIGURATION -> processConfigurationRequest();
@@ -145,11 +129,7 @@ public class OcppConfigurationObserver20 implements OcppObserver {
       var componentConfig = configMap.get(component);
       for (var key : componentConfig.keySet()) {
         var value = componentConfig.get(key);
-        queue.add(new SetVariableData(
-                value,
-                new Component(component),
-                new VariableType(key)
-        ));
+        queue.add(new SetVariableData(value, new Component(component), new VariableType(key)));
       }
     }
     if (queue.isEmpty()) {
@@ -169,12 +149,11 @@ public class OcppConfigurationObserver20 implements OcppObserver {
       }
       var setVariableRequest = new SetVariablesRequest20(setVariableList);
       sender.sendMessage(setVariableRequest, chargePointManager);
-      chargePointManager.setPendingRequest(
-              new WebSocketRequestMessage(MessageType.REQUEST.getCallType(),
-                      chargePointManager.getCurrentId(),
-                      WebSocketMessage.MessageTypeRequest.SET_VARIABLES_REQUEST,
-                      JsonParser.objectToJsonString(setVariableRequest))
-      );
+      chargePointManager.setPendingRequest(new WebSocketRequestMessage(
+          MessageType.REQUEST.getCallType(),
+          chargePointManager.getCurrentId(),
+          WebSocketMessage.MessageTypeRequest.SET_VARIABLES_REQUEST,
+          JsonParser.objectToJsonString(setVariableRequest)));
     }
   }
 
@@ -199,12 +178,13 @@ public class OcppConfigurationObserver20 implements OcppObserver {
     for (var result : response.setVariableResult()) {
       if (!result.attributeStatus().equals("Accepted")) {
         noFailure = false;
-        failedConfig.append(result.attributeStatus())
-                .append(" :\n\tComponent : ")
-                .append(result.component().name())
-                .append("\n\tVariable : ")
-                .append(result.variable().name())
-                .append("\n");
+        failedConfig
+            .append(result.attributeStatus())
+            .append(" :\n\tComponent : ")
+            .append(result.component().name())
+            .append("\n\tVariable : ")
+            .append(result.variable().name())
+            .append("\n");
       }
     }
     var currentChargepoint = chargePointManager.getCurrentChargepoint();

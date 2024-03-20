@@ -33,12 +33,10 @@ public record Notification(String name, WebSocketNotification value) {
    */
   public static Notification notificationOnConnection(Chargepoint chargepoint) {
     var message = new CriticalityWebsocketNotification(
-            chargepoint.getClientId(),
-            CriticalityWebsocketNotification.Type.INFO,
-            chargepoint.getClientId() + " connectée"
-    );
-    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-            message);
+        chargepoint.getClientId(),
+        CriticalityWebsocketNotification.Type.INFO,
+        chargepoint.getClientId() + " connectée");
+    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message);
   }
 
   /**
@@ -49,12 +47,10 @@ public record Notification(String name, WebSocketNotification value) {
    */
   public static Notification notificationOnDisconnect(Chargepoint chargepoint) {
     var message = new CriticalityWebsocketNotification(
-            chargepoint.getClientId(),
-            CriticalityWebsocketNotification.Type.INFO,
-            chargepoint.getClientId() + " déconnectée"
-    );
-    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-            message);
+        chargepoint.getClientId(),
+        CriticalityWebsocketNotification.Type.INFO,
+        chargepoint.getClientId() + " déconnectée");
+    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message);
   }
 
   /**
@@ -65,12 +61,10 @@ public record Notification(String name, WebSocketNotification value) {
    */
   public static Notification notificationOnError(Chargepoint chargepoint) {
     var message = new CriticalityWebsocketNotification(
-            chargepoint.getClientId(),
-            CriticalityWebsocketNotification.Type.ERROR,
-            chargepoint.getClientId() + " a eu une erreur"
-    );
-    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-            message);
+        chargepoint.getClientId(),
+        CriticalityWebsocketNotification.Type.ERROR,
+        chargepoint.getClientId() + " a eu une erreur");
+    return new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message);
   }
 
   /**
@@ -84,33 +78,26 @@ public record Notification(String name, WebSocketNotification value) {
     var currentStep = chargepoint.getStep();
     if (chargepoint.getStatus() == Chargepoint.StatusProcess.FAILED) {
       var message = new CriticalityWebsocketNotification(
-              chargepoint.getClientId(),
-              CriticalityWebsocketNotification.Type.ERROR,
-              "Échec "
-                      + (currentStep == Chargepoint.Step.FIRMWARE ? "du " : "de ")
-                      + currentStep
-      );
-      return Optional.of(new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-              message));
+          chargepoint.getClientId(),
+          CriticalityWebsocketNotification.Type.ERROR,
+          "Échec " + (currentStep == Chargepoint.Step.FIRMWARE ? "du " : "de ") + currentStep);
+      return Optional.of(
+          new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message));
     } else if (chargepoint.getStatus() == Chargepoint.StatusProcess.FINISHED) {
       var message = new CriticalityWebsocketNotification(
-              chargepoint.getClientId(),
-              CriticalityWebsocketNotification.Type.SUCCESS,
-              "Réussite "
-                      + (currentStep == Chargepoint.Step.FIRMWARE ? "du " : "de ")
-                      + currentStep
-      );
-      return Optional.of(new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-              message));
+          chargepoint.getClientId(),
+          CriticalityWebsocketNotification.Type.SUCCESS,
+          "Réussite " + (currentStep == Chargepoint.Step.FIRMWARE ? "du " : "de ") + currentStep);
+      return Optional.of(
+          new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message));
     } else {
       if (currentStep == Chargepoint.Step.CONFIGURATION) {
         var message = new CriticalityWebsocketNotification(
-                chargepoint.getClientId(),
-                CriticalityWebsocketNotification.Type.SUCCESS,
-                "Réussite du " + Chargepoint.Step.FIRMWARE
-        );
-        return Optional.of(new Notification(CriticalityWebsocketNotification.class.getSimpleName(),
-                message));
+            chargepoint.getClientId(),
+            CriticalityWebsocketNotification.Type.SUCCESS,
+            "Réussite du " + Chargepoint.Step.FIRMWARE);
+        return Optional.of(
+            new Notification(CriticalityWebsocketNotification.class.getSimpleName(), message));
       }
     }
     return Optional.empty();
@@ -124,15 +111,14 @@ public record Notification(String name, WebSocketNotification value) {
    */
   public static Notification notificationOnStatusChange(Chargepoint chargepoint) {
     var statusDto = new StatusDto(
-            Timestamp.valueOf(chargepoint.getLastUpdate()),
-            chargepoint.getError(),
-            chargepoint.isState(),
-            chargepoint.getStep(),
-            chargepoint.getStatus()
-    );
-    var chargepointNotification = new ChargePointWebsocketNotification(chargepoint.getId(),
-            statusDto);
-    return new Notification(ChargePointWebsocketNotification.class.getSimpleName(),
-            chargepointNotification);
+        Timestamp.valueOf(chargepoint.getLastUpdate()),
+        chargepoint.getError(),
+        chargepoint.isState(),
+        chargepoint.getStep(),
+        chargepoint.getStatus());
+    var chargepointNotification =
+        new ChargePointWebsocketNotification(chargepoint.getId(), statusDto);
+    return new Notification(
+        ChargePointWebsocketNotification.class.getSimpleName(), chargepointNotification);
   }
 }

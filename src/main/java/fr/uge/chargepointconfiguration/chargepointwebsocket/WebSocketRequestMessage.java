@@ -12,10 +12,9 @@ import java.util.Objects;
  * @param messageName {@link MessageTypeRequest}.
  * @param data        The data given by the message, it is in Json format.
  */
-public record WebSocketRequestMessage(int callType,
-                                      long messageId,
-                                      WebSocketMessage.MessageTypeRequest messageName,
-                                      String data) implements WebSocketMessage {
+public record WebSocketRequestMessage(
+    int callType, long messageId, WebSocketMessage.MessageTypeRequest messageName, String data)
+    implements WebSocketMessage {
 
   /**
    * {@link WebSocketRequestMessage}'s constructor.
@@ -37,7 +36,7 @@ public record WebSocketRequestMessage(int callType,
 
   @Override
   public String toString() {
-    return "[" + callType + ",\"" + messageId + "\",\""
-           + messageName.getName() + "\"," + data + "]";
+    return "[" + callType + ",\"" + messageId + "\",\"" + messageName.getName() + "\"," + data
+        + "]";
   }
 }

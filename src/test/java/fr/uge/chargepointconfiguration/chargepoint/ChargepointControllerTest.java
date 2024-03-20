@@ -1,5 +1,10 @@
 package fr.uge.chargepointconfiguration.chargepoint;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,29 +25,23 @@ class ChargepointControllerTest {
 
   @Test
   @Disabled
-  void getAllChargepoints() {
-  }
+  void getAllChargepoints() {}
 
   @Test
   @Disabled
-  void getChargepointById() {
-  }
+  void getChargepointById() {}
 
   @Test
   @Disabled
-  void searchChargepoints() {
-  }
+  void searchChargepoints() {}
 
   @Test
   @Disabled
-  void registerChargepoint() {
-  }
+  void registerChargepoint() {}
 
   @Test
   @Disabled
-  void updateChargepoint() {
-  }
-
+  void updateChargepoint() {}
 
   @Test
   @WithMockUser(roles = "VISUALIZER")
@@ -55,8 +50,7 @@ class ChargepointControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "0")
             .queryParam("sortBy", "clientId")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(8)))
@@ -71,8 +65,7 @@ class ChargepointControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "1")
             .queryParam("sortBy", "clientId")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(8)))
@@ -82,7 +75,6 @@ class ChargepointControllerTest {
         .andExpect(jsonPath("$.data", hasSize(2)))
         .andExpect(jsonPath("$.data[0].clientId", is("les bornés")))
         .andExpect(jsonPath("$.data[1].clientId", is("elisabeth borne")));
-
   }
 
   @Test
@@ -93,8 +85,7 @@ class ChargepointControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "clientId")
             .queryParam("order", "desc")
-            .queryParam("request", "clientId:`les`,type:`Single`")
-        )
+            .queryParam("request", "clientId:`les`,type:`Single`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(1)))
@@ -114,8 +105,7 @@ class ChargepointControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "clientId")
             .queryParam("order", "desc")
-            .queryParam("request", "clientId:`borne`")
-        )
+            .queryParam("request", "clientId:`borne`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(6)))
@@ -126,5 +116,4 @@ class ChargepointControllerTest {
         .andExpect(jsonPath("$.data[0].clientId", is("stéphane borne (l'historien)")))
         .andExpect(jsonPath("$.data[1].clientId", is("nom de la borne")));
   }
-
 }

@@ -40,9 +40,10 @@ public class Firmware {
   private String constructor;
 
   @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(name = "compatibility",
-          joinColumns = @JoinColumn(name = "id_firmware"),
-          inverseJoinColumns = @JoinColumn(name = "id_type_allowed"))
+  @JoinTable(
+      name = "compatibility",
+      joinColumns = @JoinColumn(name = "id_firmware"),
+      inverseJoinColumns = @JoinColumn(name = "id_type_allowed"))
   private Set<TypeAllowed> typesAllowed;
 
   /**
@@ -53,10 +54,7 @@ public class Firmware {
    * @param constructor Manufacturer of this firmware.
    * @param  typesAllowed Set of all the compatible firmware.
    */
-  public Firmware(String url,
-                  String version,
-                  String constructor,
-                  Set<TypeAllowed> typesAllowed) {
+  public Firmware(String url, String version, String constructor, Set<TypeAllowed> typesAllowed) {
     this.url = Objects.requireNonNull(url);
     this.version = Objects.requireNonNull(version);
     this.constructor = Objects.requireNonNull(constructor);
@@ -67,9 +65,7 @@ public class Firmware {
   /**
    * Empty constructor. Should not be called.
    */
-  public Firmware() {
-
-  }
+  public Firmware() {}
 
   public int getId() {
     return id;
@@ -117,10 +113,10 @@ public class Firmware {
     }
     Firmware firmware = (Firmware) o;
     return id == firmware.id
-           && Objects.equals(version, firmware.version)
-           && Objects.equals(url, firmware.url)
-           && Objects.equals(constructor, firmware.constructor)
-           && Objects.equals(typesAllowed, firmware.typesAllowed);
+        && Objects.equals(version, firmware.version)
+        && Objects.equals(url, firmware.url)
+        && Objects.equals(constructor, firmware.constructor)
+        && Objects.equals(typesAllowed, firmware.typesAllowed);
   }
 
   @Override
@@ -140,11 +136,11 @@ public class Firmware {
   @Override
   public String toString() {
     return "Firmware{"
-           + "id=" + id
-           + ", url='" + url + '\''
-           + ", version=" + version
-           + ", constructor='" + constructor + '\''
-           + ", typesAllowed=" + typesAllowed
-           + '}';
+        + "id=" + id
+        + ", url='" + url + '\''
+        + ", version=" + version
+        + ", constructor='" + constructor + '\''
+        + ", typesAllowed=" + typesAllowed
+        + '}';
   }
 }

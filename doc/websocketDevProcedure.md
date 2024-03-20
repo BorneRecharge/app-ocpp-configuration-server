@@ -1,8 +1,8 @@
 # How to develop and test web sockets on this project.
 
 > Note : This procedure is for development purposes only, and could be changed at any time.
-You will need to launch the Java Application beforehand and write down the given password on launch.
-After that, launch the front with ```npm run start``` in the front folder.
+> You will need to launch the Java Application beforehand and write down the given password on launch.
+> After that, launch the front with ```npm run start``` in the front folder.
 
 The given password should look like this :
 

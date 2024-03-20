@@ -7,5 +7,4 @@ package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data;
  *             of standardized variable names whenever possible.<br>
  *             Case Insensitive. Strongly advised to use Camel Case.
  */
-public record VariableType(String name) {
-}
+public record VariableType(String name) {}

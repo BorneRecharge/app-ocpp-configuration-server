@@ -48,18 +48,21 @@ public class TechnicalLogController {
    * @return a list of technical logs by component and criticality.
    */
   @Operation(summary = "Get a list of logs by its component and level")
-  @ApiResponse(responseCode = "200",
-          description = "Found the list of technical logs",
-          content = { @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = TechnicalLogDto.class))
-          })
+  @ApiResponse(
+      responseCode = "200",
+      description = "Found the list of technical logs",
+      content = {
+        @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = TechnicalLogDto.class))
+      })
   @GetMapping(value = "/{component}/{level}")
   @PreAuthorize("hasRole('EDITOR')")
   public List<TechnicalLogDto> getTechnicalLogByComponentAndLevel(
-          @Parameter @PathVariable TechnicalLogEntity.Component component,
-          @Parameter @PathVariable Level level) {
-    return technicalLogService.getTechnicalLogByComponentAndLevel(component, level)
-        .stream().map(TechnicalLogEntity::toDto)
+      @Parameter @PathVariable TechnicalLogEntity.Component component,
+      @Parameter @PathVariable Level level) {
+    return technicalLogService.getTechnicalLogByComponentAndLevel(component, level).stream()
+        .map(TechnicalLogEntity::toDto)
         .toList();
   }
 
@@ -74,42 +77,44 @@ public class TechnicalLogController {
    * @return A page containing a list of {@link TechnicalLogDto}
    */
   @Operation(summary = "Search for technical logs")
-  @ApiResponse(responseCode = "200",
+  @ApiResponse(
+      responseCode = "200",
       description = "Found technical logs",
-      content = { @Content(mediaType = "application/json",
-          schema = @Schema(implementation = TechnicalLogDto.class))
+      content = {
+        @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = TechnicalLogDto.class))
       })
   @GetMapping(value = "/search")
   @PreAuthorize("hasRole('EDITOR')")
   public PageDto<TechnicalLogDto> getPage(
       @Parameter(description = "Desired size of the requested page.")
-      @RequestParam(required = false, defaultValue = "10") int size,
-
+          @RequestParam(required = false, defaultValue = "10")
+          int size,
       @Parameter(description = "Requested page.")
-      @RequestParam(required = false, defaultValue = "0") int page,
-
-      @Parameter(description =
-          "The column you want to sort by. Must be an attribute of the technical log.")
-      @RequestParam(required = false, defaultValue = "id") String sortBy,
-
+          @RequestParam(required = false, defaultValue = "0")
+          int page,
+      @Parameter(
+              description =
+                  "The column you want to sort by. Must be an attribute of the technical log.")
+          @RequestParam(required = false, defaultValue = "id")
+          String sortBy,
       @Parameter(description = "The order of the sort. must be \"asc\" or \"desc\"")
-      @RequestParam(required = false, defaultValue = "asc") String order,
-
+          @RequestParam(required = false, defaultValue = "asc")
+          String order,
       @Parameter(description = "The request used to search.")
-      @RequestParam(required = false, defaultValue = "") String request
-  ) {
+          @RequestParam(required = false, defaultValue = "")
+          String request) {
     var total = technicalLogService.countTotalWithFilter(request);
     var totalElement = technicalLogService.count();
 
-    var data = technicalLogService.search(
-            request,
-            PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy))
-        )
+    var data = technicalLogService
+        .search(
+            request, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy)))
         .stream()
         .map(TechnicalLogEntity::toDto)
         .toList();
 
     return new PageDto<>(total, totalElement, page, size, data);
   }
-
 }

@@ -11,7 +11,6 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppObserver;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppVersion;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
-
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,20 +33,21 @@ public class ChargePointManager {
    * @param ocppMessageSender     The websocket connection used to send data.
    * @param chargepointRepository The chargepoint's repository for database queries.
    */
-  public ChargePointManager(OcppVersion ocppVersion,
-                            OcppMessageSender ocppMessageSender,
-                            ChargepointRepository chargepointRepository,
-                            FirmwareRepository firmwareRepository,
-                            CustomLogger logger) {
+  public ChargePointManager(
+      OcppVersion ocppVersion,
+      OcppMessageSender ocppMessageSender,
+      ChargepointRepository chargepointRepository,
+      FirmwareRepository firmwareRepository,
+      CustomLogger logger) {
     this.ocppMessageParser = OcppMessageParser.instantiateFromVersion(ocppVersion);
     this.chargepointRepository = Objects.requireNonNull(chargepointRepository);
-    this.ocppObserver = OcppObserver.instantiateFromVersion(Objects.requireNonNull(ocppVersion),
-            this,
-            ocppMessageSender,
-            chargepointRepository,
-            Objects.requireNonNull(firmwareRepository),
-            Objects.requireNonNull(logger)
-    );
+    this.ocppObserver = OcppObserver.instantiateFromVersion(
+        Objects.requireNonNull(ocppVersion),
+        this,
+        ocppMessageSender,
+        chargepointRepository,
+        Objects.requireNonNull(firmwareRepository),
+        Objects.requireNonNull(logger));
   }
 
   /**
@@ -83,14 +83,14 @@ public class ChargePointManager {
    *
    * @param webSocketMessage The {@link WebSocketMessage} sent to our server.
    */
-  public Optional<OcppMessage> processMessage(WebSocketMessage webSocketMessage) throws IOException {
+  public Optional<OcppMessage> processMessage(WebSocketMessage webSocketMessage)
+      throws IOException {
     Objects.requireNonNull(webSocketMessage);
     Optional<OcppMessage> message;
     if (webSocketMessage.isRequest()) {
       message = ocppMessageParser.parseRequestMessage(webSocketMessage);
     } else {
-      message = ocppMessageParser.parseResponseMessage(pendingRequest,
-              webSocketMessage);
+      message = ocppMessageParser.parseResponseMessage(pendingRequest, webSocketMessage);
       pendingRequest = null;
     }
     if (message.isEmpty()) {
@@ -138,9 +138,7 @@ public class ChargePointManager {
    */
   public void notifyStatusUpdate() {
     var notification = Notification.notificationOnStatusChange(currentChargepoint);
-    FrontWebSocketHandler.sendMessageToUsers(
-            notification
-    );
+    FrontWebSocketHandler.sendMessageToUsers(notification);
   }
 
   /**
@@ -150,9 +148,7 @@ public class ChargePointManager {
   public void notifyProcess() {
     var notification = Notification.notificationOnFinishedProcess(currentChargepoint);
     if (notification.isPresent()) {
-      FrontWebSocketHandler.sendMessageToUsers(
-              notification.orElseThrow()
-      );
+      FrontWebSocketHandler.sendMessageToUsers(notification.orElseThrow());
     }
   }
 

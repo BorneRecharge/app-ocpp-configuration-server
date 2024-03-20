@@ -1,5 +1,8 @@
 package fr.uge.chargepointconfiguration;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,9 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Component;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 
 /**
  * Package visibility, just for testing purpose.
@@ -40,7 +40,7 @@ class FakeController {
 }
 
 @SpringBootTest
-//@RunWith(SpringRunner.class)
+// @RunWith(SpringRunner.class)
 public class PermissionTest {
 
   @Autowired

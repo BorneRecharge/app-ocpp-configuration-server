@@ -46,20 +46,17 @@ public class UserController {
    * @return Details about all the users.
    */
   @Operation(summary = "Get all users.")
-  @ApiResponse(responseCode = "200",
-        description = "Found all users",
-        content = @Content(
+  @ApiResponse(
+      responseCode = "200",
+      description = "Found all users",
+      content =
+          @Content(
               mediaType = "application/json",
-              schema = @Schema(implementation = UserDto.class)
-        )
-  )
+              schema = @Schema(implementation = UserDto.class)))
   @GetMapping("/all")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
   public List<UserDto> getAllUsers() {
-    return userService.getAllUsers()
-          .stream()
-          .map(User::toDto)
-          .toList();
+    return userService.getAllUsers().stream().map(User::toDto).toList();
   }
 
   /**
@@ -68,13 +65,13 @@ public class UserController {
    * @return Details about the current user.
    */
   @Operation(summary = "Get the current authenticated user.")
-  @ApiResponse(responseCode = "200",
-        description = "Found the authenticated user",
-        content = @Content(
+  @ApiResponse(
+      responseCode = "200",
+      description = "Found the authenticated user",
+      content =
+          @Content(
               mediaType = "application/json",
-              schema = @Schema(implementation = UserDto.class)
-        )
-  )
+              schema = @Schema(implementation = UserDto.class)))
   @GetMapping("/me")
   @PreAuthorize("hasRole('VISUALIZER')")
   public UserDto getAuthenticatedUser() {
@@ -88,22 +85,22 @@ public class UserController {
    * @return a ResponseEntity of UserDto.
    */
   @Operation(summary = "Update password")
-  @ApiResponse(responseCode = "200",
-        description = "Update the password of the current user",
-        content = @Content(
+  @ApiResponse(
+      responseCode = "200",
+      description = "Update the password of the current user",
+      content =
+          @Content(
               mediaType = "application/json",
-              schema = @Schema(implementation = UserDto.class)
-        )
-  )
+              schema = @Schema(implementation = UserDto.class)))
   @PatchMapping("/updatePassword/{id}")
   @PreAuthorize("hasRole('VISUALIZER')")
   public ResponseEntity<UserDto> updatePassword(
-        @io.swagger.v3.oas.annotations.parameters.RequestBody(
+      @io.swagger.v3.oas.annotations.parameters.RequestBody(
               description = "Old and new password.",
-              required = true
-        )
-        @RequestBody ChangePasswordUserDto changePasswordUserDto,
-        @PathVariable int id) {
+              required = true)
+          @RequestBody
+          ChangePasswordUserDto changePasswordUserDto,
+      @PathVariable int id) {
     var user = userService.updatePassword(id, changePasswordUserDto);
     return new ResponseEntity<>(user.toDto(), HttpStatus.OK);
   }
@@ -116,23 +113,19 @@ public class UserController {
    * @return a ResponseEntity of UserDto.
    */
   @Operation(summary = "Update role")
-  @ApiResponse(responseCode = "200",
+  @ApiResponse(
+      responseCode = "200",
       description = "Update the role of the current user",
-      content = @Content(
-          mediaType = "application/json",
-          schema = @Schema(implementation = UserDto.class)
-      )
-  )
+      content =
+          @Content(
+              mediaType = "application/json",
+              schema = @Schema(implementation = UserDto.class)))
   @PatchMapping("/{id}/role/{role}")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
-  public ResponseEntity<UserDto> updateRole(
-      @PathVariable int id,
-      @PathVariable User.Role role
-  ) {
+  public ResponseEntity<UserDto> updateRole(@PathVariable int id, @PathVariable User.Role role) {
     var user = userService.updateRole(id, role).toDto();
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
-
 
   /**
    * Search for {@link UserDto} with a pagination.
@@ -146,37 +139,36 @@ public class UserController {
    * @return A page containing a list of {@link UserDto}
    */
   @Operation(summary = "Search for users")
-  @ApiResponse(responseCode = "200",
+  @ApiResponse(
+      responseCode = "200",
       description = "Found users",
-      content = { @Content(mediaType = "application/json",
-          schema = @Schema(implementation = UserDto.class))
+      content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
       })
   @GetMapping(value = "/search")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
   public PageDto<UserDto> searchWithPage(
       @Parameter(description = "Desired size of the requested page.")
-      @RequestParam(required = false, defaultValue = "10") int size,
-
+          @RequestParam(required = false, defaultValue = "10")
+          int size,
       @Parameter(description = "Requested page.")
-      @RequestParam(required = false, defaultValue = "0") int page,
-
-      @Parameter(description =
-          "The column you want to sort by. Must be an attribute of the users.")
-      @RequestParam(required = false, defaultValue = "id") String sortBy,
-
+          @RequestParam(required = false, defaultValue = "0")
+          int page,
+      @Parameter(description = "The column you want to sort by. Must be an attribute of the users.")
+          @RequestParam(required = false, defaultValue = "id")
+          String sortBy,
       @Parameter(description = "The order of the sort. must be \"asc\" or \"desc\"")
-      @RequestParam(required = false, defaultValue = "asc") String order,
-
+          @RequestParam(required = false, defaultValue = "asc")
+          String order,
       @Parameter(description = "The request used to search.")
-      @RequestParam(required = false, defaultValue = "") String request
-  ) {
+          @RequestParam(required = false, defaultValue = "")
+          String request) {
     var total = userService.countWithFilters(request);
     var totalElement = userService.count();
 
-    var data = userService.search(
-            request,
-            PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy))
-        )
+    var data = userService
+        .search(
+            request, PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sortBy)))
         .stream()
         .map(User::toDto)
         .toList();
@@ -189,16 +181,16 @@ public class UserController {
    * @return a list of roles.
    */
   @Operation(summary = "Get all availables roles")
-  @ApiResponse(responseCode = "200",
-          description = "Found roles",
-          content = { @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = User.Role.class))
-          })
+  @ApiResponse(
+      responseCode = "200",
+      description = "Found roles",
+      content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = User.Role.class))
+      })
   @GetMapping(value = "/allRoles")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
   public List<User.Role> getAllRoles() {
-    return Arrays.stream(User.Role.values())
-            .toList();
+    return Arrays.stream(User.Role.values()).toList();
   }
 
   /**
@@ -208,23 +200,24 @@ public class UserController {
    * @return a ResponseEntity of the user.
    */
   @Operation(summary = "Create new user")
-  @ApiResponse(responseCode = "201",
-          description = "User created",
-          content = { @Content(mediaType = "application/json",
-                  schema = @Schema(implementation = UserDto.class))
-          })
+  @ApiResponse(
+      responseCode = "201",
+      description = "User created",
+      content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.class))
+      })
   @PostMapping(value = "/create")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
   public ResponseEntity<UserDto> addUser(
-          @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                  description = "JSON with all parameters of the new user.",
-                  required = true
-          )
-          @RequestBody CreateUserDto createUserDto) {
+      @io.swagger.v3.oas.annotations.parameters.RequestBody(
+              description = "JSON with all parameters of the new user.",
+              required = true)
+          @RequestBody
+          CreateUserDto createUserDto) {
     var user = userService.createUser(createUserDto);
     return new ResponseEntity<>(user.toDto(), HttpStatus.CREATED);
   }
-  
+
   @DeleteMapping("/{id}")
   @PreAuthorize("hasRole('ADMINISTRATOR')")
   public ResponseEntity<Void> delete(@PathVariable int id) {

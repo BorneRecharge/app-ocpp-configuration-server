@@ -30,8 +30,8 @@ A web application to update or configure a charge point with OCPP protocol.
 
 TODO : Explain the installation process !
 
-
 ## Running program
+
 You must set those environment variables in IntelliJ in the edit project configuration:
 - FINAL_WS_SERVER_ADDRESS=<*next supervisor server address>;
 - MYSQL_ADDON_USER=<*database username*>;
@@ -39,17 +39,16 @@ You must set those environment variables in IntelliJ in the edit project configu
 - MYSQL_DB_PASSWORD=<*database password*>;
 
 ## Running check style
+
 You should install the plugin in IntelliJ CheckStyle-IDEA and set the *checkstyle.xml* in the plugin configuration.
 Then check style could be executed locally through the plugin menu.
 
 ## Running tests
 
 ## Running the charge points generator
+
 The python script is used to generate charge points and status into the database.   
 You will need python3 as well as pymysql installed : ```pip install pymysql```.   
 You can run it by typing ```python3 generator.py -h```.  
 It will display information on the program and the arguments.
-
-
-
 

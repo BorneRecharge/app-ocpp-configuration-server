@@ -51,8 +51,9 @@ public class FirmwareService {
   }
 
   public Firmware getFirmwareById(int id) {
-    return firmwareRepository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Pas de firmware avec l'id : " + id));
+    return firmwareRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Pas de firmware avec l'id : " + id));
   }
 
   /**
@@ -84,13 +85,11 @@ public class FirmwareService {
   public List<Firmware> search(String request, PageRequest pageable) {
     try {
       var condition = SearchUtils.computeSpecification(request, Firmware.class);
-      return firmwareRepository.findAll(condition, pageable)
-          .stream().toList();
+      return firmwareRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
   }
-
 
   /**
    * Create a firmware.
@@ -109,19 +108,17 @@ public class FirmwareService {
     createFirmwareDto.typesAllowed().forEach(typeAllowedDto -> typeAllowedRepository
         .findById(typeAllowedDto.id())
         .ifPresentOrElse(typesAllowed::add, () -> {
-          throw new EntityNotFoundException("Aucun modèle compatible avec l'id "
-                                            + typeAllowedDto.id());
+          throw new EntityNotFoundException(
+              "Aucun modèle compatible avec l'id " + typeAllowedDto.id());
         }));
-    var firmware = firmwareRepository.save(
-        new Firmware(
-            createFirmwareDto.url(),
-            createFirmwareDto.version(),
-            createFirmwareDto.constructor(),
-            typesAllowed
-        )
-    );
+    var firmware = firmwareRepository.save(new Firmware(
+        createFirmwareDto.url(),
+        createFirmwareDto.version(),
+        createFirmwareDto.constructor(),
+        typesAllowed));
 
-    logger.info(new BusinessLog(userService.getAuthenticatedUser(),
+    logger.info(new BusinessLog(
+        userService.getAuthenticatedUser(),
         null,
         BusinessLogEntity.Category.FIRM,
         "New firmware saved : " + firmware));
@@ -135,7 +132,6 @@ public class FirmwareService {
           "Un firmware avec l'URL existe déjà : " + createFirmwareDto.url());
     }
   }
-
 
   /**
    * Update a firmware.
@@ -160,7 +156,8 @@ public class FirmwareService {
               "Aucun modèle compatible avec l'id " + typeAllowedDto.id());
         }));
 
-    var firmware = firmwareRepository.findById(id)
+    var firmware = firmwareRepository
+        .findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Aucun firmware avec l'id " + id));
 
     firmware.setConstructor(createFirmwareDto.constructor());
@@ -169,8 +166,8 @@ public class FirmwareService {
     firmware.setTypesAllowed(typesAllowed);
     var result = firmwareRepository.save(firmware);
 
-
-    logger.info(new BusinessLog(userService.getAuthenticatedUser(),
+    logger.info(new BusinessLog(
+        userService.getAuthenticatedUser(),
         null,
         BusinessLogEntity.Category.FIRM,
         "Firmware updated : " + firmware));

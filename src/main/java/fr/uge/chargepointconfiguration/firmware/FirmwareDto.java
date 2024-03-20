@@ -13,9 +13,4 @@ import java.util.Set;
  * @param typesAllowed Set of all the compatible firmware.
  */
 public record FirmwareDto(
-    int id,
-    String url,
-    String version,
-    String constructor,
-    Set<TypeAllowedDto> typesAllowed) {
-}
+    int id, String url, String version, String constructor, Set<TypeAllowedDto> typesAllowed) {}

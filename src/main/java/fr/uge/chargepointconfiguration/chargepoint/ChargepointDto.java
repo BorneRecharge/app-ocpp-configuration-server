@@ -21,5 +21,4 @@ public record ChargepointDto(
     String constructor,
     String clientId,
     ConfigurationDto configuration,
-    StatusDto status) {
-}
+    StatusDto status) {}

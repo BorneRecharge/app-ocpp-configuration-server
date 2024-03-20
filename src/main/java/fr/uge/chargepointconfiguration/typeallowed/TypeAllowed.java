@@ -36,8 +36,7 @@ public class TypeAllowed {
    * @param constructor A chargepoint's manufacturer where a firmware is working on.
    * @param type The commercial name of a chargepoint where a firmware is working on.
    */
-  public TypeAllowed(String constructor,
-                     String type) {
+  public TypeAllowed(String constructor, String type) {
     this.constructor = Objects.requireNonNull(constructor);
     this.type = Objects.requireNonNull(type);
   }
@@ -45,9 +44,7 @@ public class TypeAllowed {
   /**
    * Empty constructor. Should not be called.
    */
-  public TypeAllowed() {
-
-  }
+  public TypeAllowed() {}
 
   public String getConstructor() {
     return constructor;
@@ -69,19 +66,16 @@ public class TypeAllowed {
   private Set<Firmware> firmwares;
 
   public TypeAllowedDto toDto() {
-    return new TypeAllowedDto(
-        id,
-        constructor,
-        type);
+    return new TypeAllowedDto(id, constructor, type);
   }
 
   @Override
   public String toString() {
     return "TypeAllowed{"
-           + "id=" + id
-           + ", constructor='" + constructor + '\''
-           + ", type='" + type + '\''
-           + '}';
+        + "id=" + id
+        + ", constructor='" + constructor + '\''
+        + ", type='" + type + '\''
+        + '}';
   }
 
   @Override
@@ -94,8 +88,8 @@ public class TypeAllowed {
     }
     TypeAllowed that = (TypeAllowed) o;
     return id == that.id
-           && Objects.equals(constructor, that.constructor)
-           && Objects.equals(type, that.type);
+        && Objects.equals(constructor, that.constructor)
+        && Objects.equals(type, that.type);
   }
 
   @Override

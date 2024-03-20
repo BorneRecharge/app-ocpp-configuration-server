@@ -30,8 +30,9 @@ public class ChargepointService {
    * @param configurationRepository A ConfigurationRepository accessing to database.
    */
   @Autowired
-  public ChargepointService(ChargepointRepository chargepointRepository,
-                            ConfigurationRepository configurationRepository) {
+  public ChargepointService(
+      ChargepointRepository chargepointRepository,
+      ConfigurationRepository configurationRepository) {
     this.chargepointRepository = chargepointRepository;
     this.configurationRepository = configurationRepository;
   }
@@ -50,17 +51,17 @@ public class ChargepointService {
     if (createChargepointDto.configuration() == NO_CONFIG_ID) {
       configuration = null;
     } else {
-      configuration = configurationRepository.findById(createChargepointDto.configuration())
-          .orElseThrow(() -> new EntityNotFoundException("Aucune configuration avec l'id "
-                                                         + createChargepointDto.configuration()));
+      configuration = configurationRepository
+          .findById(createChargepointDto.configuration())
+          .orElseThrow(() -> new EntityNotFoundException(
+              "Aucune configuration avec l'id " + createChargepointDto.configuration()));
     }
     return chargepointRepository.save(new Chargepoint(
         createChargepointDto.serialNumberChargepoint(),
         createChargepointDto.type(),
         createChargepointDto.constructor(),
         createChargepointDto.clientId(),
-        configuration
-    ));
+        configuration));
   }
 
   private void checkAlreadyExistingChargepoint(CreateChargepointDto createChargepointDto) {
@@ -70,8 +71,8 @@ public class ChargepointService {
     if (chargepoint != null) {
       throw new EntityAlreadyExistingException(
           "Une borne utilise déjà ce numéro de série et constructeur : "
-          + createChargepointDto.serialNumberChargepoint() + ", "
-          + createChargepointDto.constructor());
+              + createChargepointDto.serialNumberChargepoint() + ", "
+              + createChargepointDto.constructor());
     }
   }
 
@@ -80,8 +81,9 @@ public class ChargepointService {
   }
 
   public Chargepoint getChargepointById(int id) {
-    return chargepointRepository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Pas de borne avec l'id : " + id));
+    return chargepointRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Pas de borne avec l'id : " + id));
   }
 
   /**
@@ -94,8 +96,7 @@ public class ChargepointService {
   public List<Chargepoint> search(String request, PageRequest pageable) {
     try {
       var condition = SearchUtils.computeSpecification(request, Chargepoint.class);
-      return chargepointRepository.findAll(condition, pageable)
-          .stream().toList();
+      return chargepointRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
@@ -130,24 +131,24 @@ public class ChargepointService {
   public Chargepoint update(int id, CreateChargepointDto newValues) {
     checkFieldsChargepoint(newValues);
 
-    var chargepoint = chargepointRepository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Pas de borne avec l'id : " + id)
-    );
+    var chargepoint = chargepointRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Pas de borne avec l'id : " + id));
 
-    var existingByConstructorAndSerialNumber = chargepointRepository
-        .findBySerialNumberChargepointAndConstructor(
+    var existingByConstructorAndSerialNumber =
+        chargepointRepository.findBySerialNumberChargepointAndConstructor(
             newValues.serialNumberChargepoint(), newValues.constructor());
 
     if (existingByConstructorAndSerialNumber != null
         && id != existingByConstructorAndSerialNumber.getId()
-        && existingByConstructorAndSerialNumber.getSerialNumberChargepoint()
+        && existingByConstructorAndSerialNumber
+            .getSerialNumberChargepoint()
             .equals(newValues.serialNumberChargepoint())
-        && existingByConstructorAndSerialNumber.getConstructor()
-            .equals(newValues.constructor())) {
+        && existingByConstructorAndSerialNumber.getConstructor().equals(newValues.constructor())) {
       throw new EntityAlreadyExistingException(
           "Une borne utilise déjà ce numéro de série et constructeur : "
-          + newValues.serialNumberChargepoint() + ", "
-          + newValues.constructor());
+              + newValues.serialNumberChargepoint() + ", "
+              + newValues.constructor());
     }
 
     chargepoint.setSerialNumberChargepoint(newValues.serialNumberChargepoint());
@@ -157,12 +158,10 @@ public class ChargepointService {
     if (newValues.configuration() == NO_CONFIG_ID) {
       chargepoint.setConfiguration(null);
     } else {
-      chargepoint.setConfiguration(
-          configurationRepository.findById(newValues.configuration()).orElseThrow(
-              () -> new EntityNotFoundException("Pas de configuration avec l'id : "
-                                                + newValues.configuration())
-          )
-      );
+      chargepoint.setConfiguration(configurationRepository
+          .findById(newValues.configuration())
+          .orElseThrow(() -> new EntityNotFoundException(
+              "Pas de configuration avec l'id : " + newValues.configuration())));
     }
     return chargepointRepository.save(chargepoint);
   }
@@ -172,8 +171,8 @@ public class ChargepointService {
         || newValues.constructor().isBlank()
         || newValues.type().isBlank()
         || newValues.clientId().isBlank()) {
-      throw new BadRequestException("Constructeur, numéro de série, type "
-                                    + "et identifiant client sont requis");
+      throw new BadRequestException(
+          "Constructeur, numéro de série, type " + "et identifiant client sont requis");
     }
   }
 }

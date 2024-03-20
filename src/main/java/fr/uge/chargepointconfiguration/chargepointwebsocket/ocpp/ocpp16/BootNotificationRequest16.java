@@ -13,11 +13,13 @@ import java.util.Objects;
  * @param chargeBoxSerialNumber The special name of the chargepoint.
  * @param firmwareVersion The firmware version of the chargepoint.
  */
-public record BootNotificationRequest16(String chargePointVendor,
-                                        String chargePointModel,
-                                        String chargePointSerialNumber,
-                                        String chargeBoxSerialNumber,
-                                        String firmwareVersion) implements OcppMessageRequest {
+public record BootNotificationRequest16(
+    String chargePointVendor,
+    String chargePointModel,
+    String chargePointSerialNumber,
+    String chargeBoxSerialNumber,
+    String firmwareVersion)
+    implements OcppMessageRequest {
 
   /**
    * {@link BootNotificationRequest16}'s constructor.
@@ -33,29 +35,23 @@ public record BootNotificationRequest16(String chargePointVendor,
     Objects.requireNonNull(chargePointModel);
     if (chargePointVendor.length() > 20) {
       throw new IllegalArgumentException(
-              "Chargepoint vendor name cannot be longer than 20 characters."
-      );
+          "Chargepoint vendor name cannot be longer than 20 characters.");
     }
     if (chargePointModel.length() > 20) {
       throw new IllegalArgumentException(
-              "Chargepoint model name cannot be longer than 20 characters."
-      );
+          "Chargepoint model name cannot be longer than 20 characters.");
     }
     if (chargePointSerialNumber != null && chargePointSerialNumber.length() > 25) {
       throw new IllegalArgumentException(
-              "Chargepoint serial number cannot be longer than 25 characters."
-      );
+          "Chargepoint serial number cannot be longer than 25 characters.");
     }
     if (chargeBoxSerialNumber != null && chargeBoxSerialNumber.length() > 25) {
       throw new IllegalArgumentException(
-              "Chargebox serial number cannot be longer than 25 characters."
-      );
+          "Chargebox serial number cannot be longer than 25 characters.");
     }
     if (firmwareVersion != null && firmwareVersion.length() > 50) {
       throw new IllegalArgumentException(
-              "Chargepoint firmware version cannot be longer than 50 characters."
-      );
+          "Chargepoint firmware version cannot be longer than 50 characters.");
     }
   }
-
 }

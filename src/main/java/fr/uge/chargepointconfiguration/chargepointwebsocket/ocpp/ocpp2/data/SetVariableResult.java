@@ -11,7 +11,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @param variable {@link VariableType}.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record SetVariableResult(String attributeStatus,
-                                Component component,
-                                VariableType variable) {
-}
+public record SetVariableResult(
+    String attributeStatus, Component component, VariableType variable) {}

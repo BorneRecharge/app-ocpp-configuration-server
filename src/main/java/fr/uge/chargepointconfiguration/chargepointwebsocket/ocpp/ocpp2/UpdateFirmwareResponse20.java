@@ -12,5 +12,4 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppMessageResp
  * @param status This field indicates whether the Charging station
  *               was able to accept the request.
  */
-public record UpdateFirmwareResponse20(String status) implements OcppMessageResponse {
-}
+public record UpdateFirmwareResponse20(String status) implements OcppMessageResponse {}

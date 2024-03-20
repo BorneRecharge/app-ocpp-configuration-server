@@ -10,5 +10,4 @@ import java.util.List;
  * @param setVariableResult {@link SetVariableResult}.
  */
 public record SetVariablesResponse20(List<SetVariableResult> setVariableResult)
-        implements OcppMessageResponse {
-}
+    implements OcppMessageResponse {}

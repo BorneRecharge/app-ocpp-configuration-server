@@ -10,14 +10,14 @@ This application is ready to accept other OCPP version such as 2.0.1.
 ## Warning
 
 > 1 : If a field is required for our application, it will be marked like that *.
-
-> 2 : The communication between the two machines is a request-response, meaning, for every request sent a response 
+>
+> 2 : The communication between the two machines is a request-response, meaning, for every request sent a response
 > is expected.
-
+>
 > 3 : The OCPP 2.0.1 protocol is not yet implemented, see [Not implemented](#ocpp-201) for more explanation.
-
-> 4 : Every time a status is mentionned, it is an enum defined by the OCPP protocol 
-and will be highlighted like this : <ins>Test</ins>.
+>
+> 4 : Every time a status is mentionned, it is an enum defined by the OCPP protocol
+> and will be highlighted like this : <ins>Test</ins>.
 
 ## Processes
 
@@ -40,10 +40,10 @@ Then, the server would check the current state of the charge point before doing 
 
 ### Firmware process
 
-If the chargepoint is in FIRMWARE mode in the database, the server will compare the firmware target 
+If the chargepoint is in FIRMWARE mode in the database, the server will compare the firmware target
 in the linked configuration of the chargepoint to the current chargepoint's firmware.
 
-If the target firmware is the same as the current firmware, 
+If the target firmware is the same as the current firmware,
 we just skip this process and put the chargepoint into [CONFIGURATION mode](#configuration-process).
 
 If the target firmware is not the same, we downgrade or upgrade the firmware, step by step.
@@ -73,14 +73,14 @@ The status can be :
 If the status is <ins>DownloadFailed</ins>/<ins>InstallationFailed</ins>, all the processes are stopped,
 and we consider the process as FAILED.
 
-If the status is <ins>Installed</ins>, 
+If the status is <ins>Installed</ins>,
 we continue by rebooting the machine and continue by switching the chargepoint into the CONFIGURATION mode.
 
 If the status is something else, we just wait for the confirmation of the installation of the firmware.
 
 ### Configuration process
 
-If the chargepoint is in CONFIGURATION mode in the database, the server will compare the last update date in 
+If the chargepoint is in CONFIGURATION mode in the database, the server will compare the last update date in
 the linked configuration and the last update date in the chargepoint table.
 
 If the configuration date is more recent than the chargepoint date, we skip this process.
@@ -99,8 +99,8 @@ This status can be :
 - <ins>RebootRequired</ins>, the change has been accepted but the chargepoint needs to reboot ;
 - <ins>NotSupported</ins>, the given key is not correct.
 
-If all the messages sent by the server are <ins>Accepted</ins> or <ins>RebootRequired</ins>, 
-the configuration is finished, and we send the last order containing the new server address, 
+If all the messages sent by the server are <ins>Accepted</ins> or <ins>RebootRequired</ins>,
+the configuration is finished, and we send the last order containing the new server address,
 and we reboot the chargepoint.
 
 If not, we stop the process, and we switch the status of the chargepoint as FAILED.
@@ -114,7 +114,7 @@ If not, we stop the process, and we switch the status of the chargepoint as FAIL
 #### OCPP 2.0.1
 
 The OCPP 2.0.1 protocol is not implemented because this application has been tested with Alfen BV's charge points
-(Eve Single S-Line), and the implementation of the 2.0.1 protocol is not fully done by Alfen BV. 
+(Eve Single S-Line), and the implementation of the 2.0.1 protocol is not fully done by Alfen BV.
 
 We could not find the correct *Component* object for the **SetVariablesRequest**, except a Component called "none"
 for this chargepoint.
@@ -125,7 +125,7 @@ a <ins>Rejected</ins>.
 These components are the only components recognized by ALfen BV's chargepoints (Eve Single S-Line) with
 a firmware newer than 6.1.
 
-> Note : When marked by a *, it means the *Component* is an OCPP standard, see the 
+> Note : When marked by a *, it means the *Component* is an OCPP standard, see the
 > [official documentation](https://openchargealliance.org/protocols/open-charge-point-protocol/#OCPP2.0.1).
 
 - AlignedDataCtrlr* ;
@@ -145,6 +145,4 @@ a firmware newer than 6.1.
 - SmartChargingCtrlr* ;
 - TariffCostCtrlr* ;
 - TxCtrlr*.
-
-
 

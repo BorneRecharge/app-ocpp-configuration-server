@@ -14,9 +14,10 @@ import org.springframework.data.repository.query.Param;
 /**
  * Repository for the firmware.
  */
-public interface FirmwareRepository extends CrudRepository<Firmware, Integer>,
-    PagingAndSortingRepository<Firmware, Integer>,
-    JpaSpecificationExecutor<Firmware> {
+public interface FirmwareRepository
+    extends CrudRepository<Firmware, Integer>,
+        PagingAndSortingRepository<Firmware, Integer>,
+        JpaSpecificationExecutor<Firmware> {
 
   /**
    * Returns a Firmware from the database according to the version.
@@ -32,9 +33,11 @@ public interface FirmwareRepository extends CrudRepository<Firmware, Integer>,
    * @param typeAllowed {@link TypeAllowed} which is the compatibility for a firmware.
    * @return {@link Firmware}.
    */
-  @Query("select f from Firmware f "
-          + "join f.typesAllowed "
-          + "where :typeAllowed member of f.typesAllowed order by f.version asc")
+  @Query(
+      """
+          select f from Firmware f \
+          join f.typesAllowed \
+          where :typeAllowed member of f.typesAllowed order by f.version asc""")
   List<Firmware> findAllByTypeAllowedAsc(@Param("typeAllowed") TypeAllowed typeAllowed);
 
   /**
@@ -43,9 +46,11 @@ public interface FirmwareRepository extends CrudRepository<Firmware, Integer>,
    * @param typeAllowed {@link TypeAllowed} which is the compatibility for a firmware.
    * @return {@link Firmware}.
    */
-  @Query("select f from Firmware f "
-          + "join f.typesAllowed "
-          + "where :typeAllowed member of f.typesAllowed order by f.version desc")
+  @Query(
+      """
+          select f from Firmware f \
+          join f.typesAllowed \
+          where :typeAllowed member of f.typesAllowed order by f.version desc""")
   List<Firmware> findAllByTypeAllowedDesc(@Param("typeAllowed") TypeAllowed typeAllowed);
 
   /**

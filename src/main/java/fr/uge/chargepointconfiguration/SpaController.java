@@ -21,7 +21,7 @@ public class SpaController {
    *
    * @return a redirect to the view of the frontend root
    */
-  @RequestMapping(value = { "/login", "/about", "/home/**", "/", "/manifest.json"})
+  @RequestMapping(value = {"/login", "/about", "/home/**", "/", "/manifest.json"})
   public String forward() {
     return "forward:/index.html";
   }

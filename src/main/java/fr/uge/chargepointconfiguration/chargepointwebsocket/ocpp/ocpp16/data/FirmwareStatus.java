@@ -14,5 +14,11 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.Firmware
  * - Installed, the firmware has been installed on the chargepoint.
  */
 public enum FirmwareStatus {
-  Downloaded, DownloadFailed, Downloading, Idle, InstallationFailed, Installing, Installed
+  Downloaded,
+  DownloadFailed,
+  Downloading,
+  Idle,
+  InstallationFailed,
+  Installing,
+  Installed
 }

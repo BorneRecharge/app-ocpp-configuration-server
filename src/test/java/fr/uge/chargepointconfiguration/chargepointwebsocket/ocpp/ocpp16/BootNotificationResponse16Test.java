@@ -1,13 +1,12 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
-import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.data.RegistrationStatus;
-import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.data.RegistrationStatus;
+import java.time.Instant;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test class for {@link BootNotificationResponse16}.
@@ -20,11 +19,7 @@ class BootNotificationResponse16Test {
   @Test
   public void correctConstructorShouldNotThrowException() {
     assertDoesNotThrow(() -> {
-      new BootNotificationResponse16(
-              Instant.now(),
-              1,
-              RegistrationStatus.Accepted
-      );
+      new BootNotificationResponse16(Instant.now(), 1, RegistrationStatus.Accepted);
     });
   }
 
@@ -34,11 +29,7 @@ class BootNotificationResponse16Test {
   @Test
   public void returnsCorrectTime() {
     var currentTime = Instant.now();
-    var test = new BootNotificationResponse16(
-            currentTime,
-            1,
-            RegistrationStatus.Accepted
-    );
+    var test = new BootNotificationResponse16(currentTime, 1, RegistrationStatus.Accepted);
     assertEquals(currentTime, test.currentTime());
   }
 
@@ -47,11 +38,7 @@ class BootNotificationResponse16Test {
    */
   @Test
   public void returnsCorrectInterval() {
-    var test = new BootNotificationResponse16(
-            Instant.now(),
-            1,
-            RegistrationStatus.Accepted
-    );
+    var test = new BootNotificationResponse16(Instant.now(), 1, RegistrationStatus.Accepted);
     assertEquals(1, test.interval());
   }
 
@@ -60,11 +47,7 @@ class BootNotificationResponse16Test {
    */
   @Test
   public void returnsCorrectStatus() {
-    var test = new BootNotificationResponse16(
-            Instant.now(),
-            1,
-            RegistrationStatus.Accepted
-    );
+    var test = new BootNotificationResponse16(Instant.now(), 1, RegistrationStatus.Accepted);
     assertEquals(RegistrationStatus.Accepted, test.status());
   }
 
@@ -73,11 +56,9 @@ class BootNotificationResponse16Test {
    */
   @Test
   public void throwsExceptionIfTimeIsNull() {
-    assertThrows(NullPointerException.class, () -> new BootNotificationResponse16(
-            null,
-            1,
-            RegistrationStatus.Accepted
-    ));
+    assertThrows(
+        NullPointerException.class,
+        () -> new BootNotificationResponse16(null, 1, RegistrationStatus.Accepted));
   }
 
   /**
@@ -85,10 +66,7 @@ class BootNotificationResponse16Test {
    */
   @Test
   public void throwsExceptionIfStatusIsNull() {
-    assertThrows(NullPointerException.class, () -> new BootNotificationResponse16(
-            Instant.now(),
-            1,
-            null
-    ));
+    assertThrows(
+        NullPointerException.class, () -> new BootNotificationResponse16(Instant.now(), 1, null));
   }
 }

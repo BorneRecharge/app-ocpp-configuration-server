@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
  * Repository for the user.
  */
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer>,
-      PagingAndSortingRepository<User, Integer>,
-    JpaSpecificationExecutor<User> {
+public interface UserRepository
+    extends CrudRepository<User, Integer>,
+        PagingAndSortingRepository<User, Integer>,
+        JpaSpecificationExecutor<User> {
 
   /**
    * Returns a User from the database according to the email.

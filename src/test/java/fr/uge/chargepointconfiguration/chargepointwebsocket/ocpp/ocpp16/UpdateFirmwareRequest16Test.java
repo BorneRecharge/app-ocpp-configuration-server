@@ -1,11 +1,11 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
-import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.time.Instant;
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test class for the {@link UpdateFirmwareRequest16}.
@@ -18,10 +18,7 @@ class UpdateFirmwareRequest16Test {
   @Test
   public void correctConstructorShouldNotThrowException() {
     assertDoesNotThrow(() -> {
-      new UpdateFirmwareRequest16(
-              "location",
-              Instant.now()
-      );
+      new UpdateFirmwareRequest16("location", Instant.now());
     });
   }
 
@@ -30,10 +27,7 @@ class UpdateFirmwareRequest16Test {
    */
   @Test
   public void returnsCorrectLocation() {
-    var test = new UpdateFirmwareRequest16(
-            "location",
-            Instant.now()
-    );
+    var test = new UpdateFirmwareRequest16("location", Instant.now());
     assertEquals("location", test.location());
   }
 
@@ -43,10 +37,7 @@ class UpdateFirmwareRequest16Test {
   @Test
   public void returnsCorrectRetrieveDate() {
     var date = Instant.now();
-    var test = new UpdateFirmwareRequest16(
-            "location",
-            date
-    );
+    var test = new UpdateFirmwareRequest16("location", date);
     assertEquals(date, test.retrieveDate());
   }
 
@@ -55,10 +46,8 @@ class UpdateFirmwareRequest16Test {
    */
   @Test
   public void throwsExceptionIfLocationIsNull() {
-    assertThrows(NullPointerException.class, () -> new UpdateFirmwareRequest16(
-            null,
-            Instant.now()
-    ));
+    assertThrows(
+        NullPointerException.class, () -> new UpdateFirmwareRequest16(null, Instant.now()));
   }
 
   /**
@@ -66,9 +55,6 @@ class UpdateFirmwareRequest16Test {
    */
   @Test
   public void throwsExceptionIfRetrieveDateIsNull() {
-    assertThrows(NullPointerException.class, () -> new UpdateFirmwareRequest16(
-            "location",
-            null
-    ));
+    assertThrows(NullPointerException.class, () -> new UpdateFirmwareRequest16("location", null));
   }
 }

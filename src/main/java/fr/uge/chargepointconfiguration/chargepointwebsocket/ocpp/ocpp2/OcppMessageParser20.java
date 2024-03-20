@@ -17,21 +17,19 @@ public class OcppMessageParser20 implements OcppMessageParser {
     Objects.requireNonNull(webSocketMessage);
     return switch (webSocketMessage.messageName()) {
       case BOOT_NOTIFICATION_REQUEST -> Optional.of(
-          JsonParser.stringToObject(BootNotificationRequest20.class,
-              webSocketMessage.data()));
+          JsonParser.stringToObject(BootNotificationRequest20.class, webSocketMessage.data()));
       default -> Optional.empty();
     };
   }
 
   @Override
-  public Optional<OcppMessage> parseResponseMessage(WebSocketMessage requestMessage,
-                                                    WebSocketMessage responseMessage) {
+  public Optional<OcppMessage> parseResponseMessage(
+      WebSocketMessage requestMessage, WebSocketMessage responseMessage) {
     Objects.requireNonNull(requestMessage);
     Objects.requireNonNull(responseMessage);
     return switch (requestMessage.messageName()) {
       case SET_VARIABLES_REQUEST -> Optional.of(
-              JsonParser.stringToObject(SetVariablesResponse20.class,
-                      responseMessage.data()));
+          JsonParser.stringToObject(SetVariablesResponse20.class, responseMessage.data()));
       default -> Optional.empty();
     };
   }

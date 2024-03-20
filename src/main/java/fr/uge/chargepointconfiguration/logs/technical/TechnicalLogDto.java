@@ -18,5 +18,4 @@ public record TechnicalLogDto(
     Timestamp date,
     TechnicalLogEntity.Component component,
     String level,
-    String completeLog) {
-}
+    String completeLog) {}

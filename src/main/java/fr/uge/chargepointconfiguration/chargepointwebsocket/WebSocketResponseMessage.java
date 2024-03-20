@@ -12,7 +12,7 @@ import java.util.Objects;
  * @param data      The data given by the message, it is in Json format.
  */
 public record WebSocketResponseMessage(int callType, long messageId, String data)
-        implements WebSocketMessage {
+    implements WebSocketMessage {
 
   /**
    * {@link WebSocketResponseMessage}'s constructor.

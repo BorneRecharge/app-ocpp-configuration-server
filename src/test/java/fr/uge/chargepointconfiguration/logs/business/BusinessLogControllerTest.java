@@ -1,5 +1,10 @@
 package fr.uge.chargepointconfiguration.logs.business;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,9 +24,7 @@ class BusinessLogControllerTest {
 
   @Test
   @Disabled
-  void getBusinessLogByChargepointId() {
-  }
-
+  void getBusinessLogByChargepointId() {}
 
   @Test
   @WithMockUser(roles = "VISUALIZER")
@@ -34,8 +33,7 @@ class BusinessLogControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))
@@ -50,8 +48,7 @@ class BusinessLogControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "1")
             .queryParam("sortBy", "date")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))
@@ -71,8 +68,7 @@ class BusinessLogControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
             .queryParam("order", "desc")
-            .queryParam("request", "date>`2024-03-08T10:01:00.00`,date<`2024-03-08T11:00:00.00`")
-        )
+            .queryParam("request", "date>`2024-03-08T10:01:00.00`,date<`2024-03-08T11:00:00.00`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(1)))
@@ -91,8 +87,7 @@ class BusinessLogControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
             .queryParam("order", "desc")
-            .queryParam("request", "date>`2024-03-08T10:01:00.00`")
-        )
+            .queryParam("request", "date>`2024-03-08T10:01:00.00`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(3)))

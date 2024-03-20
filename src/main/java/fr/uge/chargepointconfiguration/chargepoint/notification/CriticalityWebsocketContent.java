@@ -16,6 +16,7 @@ public record CriticalityWebsocketContent(String title, Type criticality, String
    * - INFO, an information.
    */
   public enum Type {
-    ERROR, INFO
+    ERROR,
+    INFO
   }
 }

@@ -22,9 +22,8 @@ public class TechnicalLogService {
     this.technicalLogRepository = technicalLogRepository;
   }
 
-  public List<TechnicalLogEntity>  getTechnicalLogByComponentAndLevel(
-      TechnicalLogEntity.Component component,
-      Level level) {
+  public List<TechnicalLogEntity> getTechnicalLogByComponentAndLevel(
+      TechnicalLogEntity.Component component, Level level) {
     return technicalLogRepository.findAllByComponentAndLevelOrderByIdDesc(component, level.name());
   }
 
@@ -57,8 +56,7 @@ public class TechnicalLogService {
   public List<TechnicalLogEntity> search(String request, PageRequest pageable) {
     try {
       var condition = SearchUtils.computeSpecification(request, TechnicalLogEntity.class);
-      return technicalLogRepository.findAll(condition, pageable)
-            .stream().toList();
+      return technicalLogRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }

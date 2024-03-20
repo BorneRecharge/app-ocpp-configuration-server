@@ -19,7 +19,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "app_user")
 @SQLDelete(sql = """
-      update app_user 
+      update app_user
       set is_deleted = true
       where id = ?
       """)
@@ -34,7 +34,9 @@ public class User {
    * - ADMINISTRATOR.
    */
   public enum Role {
-    VISUALIZER, EDITOR, ADMINISTRATOR
+    VISUALIZER,
+    EDITOR,
+    ADMINISTRATOR
   }
 
   @Id
@@ -70,11 +72,7 @@ public class User {
    * @param password String.
    * @param role Role.
    */
-  public User(String firstName,
-              String lastName,
-              String email,
-              String password,
-              Role role) {
+  public User(String firstName, String lastName, String email, String password, Role role) {
     Objects.requireNonNull(firstName);
     Objects.requireNonNull(lastName);
     Objects.requireNonNull(email);
@@ -91,8 +89,7 @@ public class User {
    * No args User's constructor.<br>
    * It should not be called.
    */
-  public User() {
-  }
+  public User() {}
 
   /**
    * Returns the user's ID.
@@ -228,23 +225,18 @@ public class User {
   }
 
   public UserDto toDto() {
-    return new UserDto(
-        id,
-        firstName,
-        lastName,
-        email,
-        role);
+    return new UserDto(id, firstName, lastName, email, role);
   }
 
   @Override
   public String toString() {
     return "User{"
-            + "id=" + id
-            + ", email='" + email + '\''
-            + ", lastName='" + lastName + '\''
-            + ", firstName='" + firstName + '\''
-            + ", role=" + role
-            + ", isDeleted=" + isDeleted
-            + '}';
+        + "id=" + id
+        + ", email='" + email + '\''
+        + ", lastName='" + lastName + '\''
+        + ", firstName='" + firstName + '\''
+        + ", role=" + role
+        + ", isDeleted=" + isDeleted
+        + '}';
   }
 }

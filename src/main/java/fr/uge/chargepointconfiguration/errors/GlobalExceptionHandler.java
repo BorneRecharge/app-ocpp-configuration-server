@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(new ErrorMessage(ex.getMessage()), HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler({ ForbiddenOperationException.class, AccessDeniedException.class })
+  @ExceptionHandler({ForbiddenOperationException.class, AccessDeniedException.class})
   @ResponseStatus(HttpStatus.FORBIDDEN)
   public ResponseEntity<ErrorMessage> handleForbiddenOperationException(RuntimeException ex) {
     logger.error(new TechnicalLog(TechnicalLogEntity.Component.BACKEND, ex.getMessage()));

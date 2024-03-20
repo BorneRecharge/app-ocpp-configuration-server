@@ -7,8 +7,4 @@ package fr.uge.chargepointconfiguration.typeallowed;
  * @param constructor A chargepoint's manufacturer where a firmware is working on.
  * @param type The commercial name of a chargepoint where a firmware is working on.
  */
-public record TypeAllowedDto(
-    int id,
-    String constructor,
-    String type) {
-}
+public record TypeAllowedDto(int id, String constructor, String type) {}

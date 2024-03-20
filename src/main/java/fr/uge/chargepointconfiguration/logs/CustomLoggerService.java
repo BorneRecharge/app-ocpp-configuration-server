@@ -25,8 +25,8 @@ public class CustomLoggerService {
    * @param technicalLogRepository A TechnicalLogRepository accessing to database.
    */
   @Autowired
-  public CustomLoggerService(BusinessLogRepository businessLogRepository,
-                              TechnicalLogRepository technicalLogRepository) {
+  public CustomLoggerService(
+      BusinessLogRepository businessLogRepository, TechnicalLogRepository technicalLogRepository) {
     this.businessLogRepository = businessLogRepository;
     this.technicalLogRepository = technicalLogRepository;
   }

@@ -5,5 +5,4 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppMessageResp
 /**
  * An empty packet sent to the server to acknowledge the {@link UpdateFirmwareRequest16}.
  */
-public record UpdateFirmwareResponse16() implements OcppMessageResponse {
-}
+public record UpdateFirmwareResponse16() implements OcppMessageResponse {}

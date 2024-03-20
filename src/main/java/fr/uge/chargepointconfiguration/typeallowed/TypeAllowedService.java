@@ -22,7 +22,6 @@ public class TypeAllowedService {
     this.typeAllowedRepository = typeAllowedRepository;
   }
 
-
   /**
    * Get all type allowed entries from the database.
    *
@@ -40,8 +39,6 @@ public class TypeAllowedService {
    */
   public TypeAllowed save(CreateTypeAllowedDto typeAllowedDto) {
     return typeAllowedRepository.save(
-        new TypeAllowed(typeAllowedDto.constructor(), typeAllowedDto.type())
-    );
+        new TypeAllowed(typeAllowedDto.constructor(), typeAllowedDto.type()));
   }
-
 }

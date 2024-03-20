@@ -1,5 +1,10 @@
 package fr.uge.chargepointconfiguration.configuration;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,28 +25,23 @@ class ConfigurationControllerTest {
 
   @Test
   @Disabled
-  void getAllConfiguration() {
-  }
+  void getAllConfiguration() {}
 
   @Test
   @Disabled
-  void getConfigurationById() {
-  }
+  void getConfigurationById() {}
 
   @Test
   @Disabled
-  void registerConfiguration() {
-  }
+  void registerConfiguration() {}
 
   @Test
   @Disabled
-  void updateConfiguration() {
-  }
+  void updateConfiguration() {}
 
   @Test
   @Disabled
-  void getAllConfigurationTranscriptor() {
-  }
+  void getAllConfigurationTranscriptor() {}
 
   @Test
   @WithMockUser(roles = "VISUALIZER")
@@ -54,8 +50,7 @@ class ConfigurationControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "0")
             .queryParam("sortBy", "lastEdit")
-            .queryParam("order", "asc")
-        )
+            .queryParam("order", "asc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(5)))
@@ -70,8 +65,7 @@ class ConfigurationControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "1")
             .queryParam("sortBy", "lastEdit")
-            .queryParam("order", "asc")
-        )
+            .queryParam("order", "asc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(5)))
@@ -91,8 +85,7 @@ class ConfigurationControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "lastEdit")
             .queryParam("order", "asc")
-            .queryParam("request", "configuration:`{}`,name:`vide`")
-        )
+            .queryParam("request", "configuration:`{}`,name:`vide`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(1)))
@@ -111,8 +104,7 @@ class ConfigurationControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "lastEdit")
             .queryParam("order", "asc")
-            .queryParam("request", "id:`1`")
-        )
+            .queryParam("request", "id:`1`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(1)))

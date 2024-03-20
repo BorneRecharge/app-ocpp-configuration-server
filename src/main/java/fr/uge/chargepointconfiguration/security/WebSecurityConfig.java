@@ -1,7 +1,6 @@
 package fr.uge.chargepointconfiguration.security;
 
 import fr.uge.chargepointconfiguration.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -30,27 +29,28 @@ public class WebSecurityConfig {
 
   @Bean
   SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
-    http
-          .authorizeHttpRequests(authorize ->
-                authorize.requestMatchers("/api/**").authenticated()
-                      // allow React to access its files
-                      .requestMatchers(
-                        "/index.html",
-                        "/static/**",
-                        "/manifest.json",
-                        "/assets/**")
-                      .permitAll()
-                      .requestMatchers("/", "/logout", "/about").permitAll()
-                      .requestMatchers("/ocpp/**").permitAll()
-                      .anyRequest().authenticated()
-          )
-          .formLogin(formLogin -> formLogin.loginPage("/").permitAll()
-                .failureUrl("/?failed")
-                .defaultSuccessUrl("/home", true)
-                // see : https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configurers/AbstractAuthenticationFilterConfigurer.html#defaultSuccessUrl(java.lang.String,boolean)
-                .loginProcessingUrl("/authentication/login/process"))
-          .csrf(AbstractHttpConfigurer::disable) // TODO csrf propre
-          .httpBasic(Customizer.withDefaults());
+    http.authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/api/**")
+            .authenticated()
+            // allow React to access its files
+            .requestMatchers("/index.html", "/static/**", "/manifest.json", "/assets/**")
+            .permitAll()
+            .requestMatchers("/", "/logout", "/about")
+            .permitAll()
+            .requestMatchers("/ocpp/**")
+            .permitAll()
+            .anyRequest()
+            .authenticated())
+        .formLogin(formLogin -> formLogin
+            .loginPage("/")
+            .permitAll()
+            .failureUrl("/?failed")
+            .defaultSuccessUrl("/home", true)
+            // see :
+            // https://docs.spring.io/spring-security/site/docs/current/api/org/springframework/security/config/annotation/web/configurers/AbstractAuthenticationFilterConfigurer.html#defaultSuccessUrl(java.lang.String,boolean)
+            .loginProcessingUrl("/authentication/login/process"))
+        .csrf(AbstractHttpConfigurer::disable) // TODO csrf propre
+        .httpBasic(Customizer.withDefaults());
     return http.build();
   }
 
@@ -62,7 +62,8 @@ public class WebSecurityConfig {
   @Bean
   static RoleHierarchy roleHierarchy() {
     var hierarchy = new RoleHierarchyImpl();
-    hierarchy.setHierarchy("""
+    hierarchy.setHierarchy(
+        """
           ROLE_ADMINISTRATOR > ROLE_EDITOR
           ROLE_EDITOR > ROLE_VISUALIZER
           """);
@@ -72,9 +73,9 @@ public class WebSecurityConfig {
   // required because using method security
   @Bean
   static MethodSecurityExpressionHandler methodSecurityExpressionHandler(
-        RoleHierarchy roleHierarchy) {
+      RoleHierarchy roleHierarchy) {
     DefaultMethodSecurityExpressionHandler expressionHandler =
-          new DefaultMethodSecurityExpressionHandler();
+        new DefaultMethodSecurityExpressionHandler();
     expressionHandler.setRoleHierarchy(roleHierarchy);
     return expressionHandler;
   }
@@ -97,7 +98,6 @@ public class WebSecurityConfig {
     authProvider.setPasswordEncoder(passwordEncoder());
     return authProvider;
   }
-
 
   @Bean
   public PasswordEncoder passwordEncoder() {

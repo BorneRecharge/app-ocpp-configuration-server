@@ -14,9 +14,10 @@ import org.springframework.stereotype.Repository;
  * Repository for the business log.
  */
 @Repository
-public interface BusinessLogRepository extends CrudRepository<BusinessLogEntity, Integer>,
-    PagingAndSortingRepository<BusinessLogEntity, Integer>,
-    JpaSpecificationExecutor<BusinessLogEntity> {
+public interface BusinessLogRepository
+    extends CrudRepository<BusinessLogEntity, Integer>,
+        PagingAndSortingRepository<BusinessLogEntity, Integer>,
+        JpaSpecificationExecutor<BusinessLogEntity> {
 
   /**
    * Method to return all business logs.

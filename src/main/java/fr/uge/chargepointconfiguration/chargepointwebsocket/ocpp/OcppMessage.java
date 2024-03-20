@@ -19,5 +19,4 @@ public interface OcppMessage {
       default -> MessageType.UNKNOWN;
     };
   }
-
 }

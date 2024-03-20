@@ -7,5 +7,4 @@ package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data;
  *             from the list of standardized components names whenever possible.<br>
  *             Case Insensitive. Strongly advised to use Camel Case.
  */
-public record Component(String name) {
-}
+public record Component(String name) {}

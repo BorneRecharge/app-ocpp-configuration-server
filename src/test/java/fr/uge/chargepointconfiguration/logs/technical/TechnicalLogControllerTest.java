@@ -26,19 +26,18 @@ class TechnicalLogControllerTest {
 
   @Test
   @Disabled
-  void getTechnicalLogByComponentAndLevel() {
-  }
+  void getTechnicalLogByComponentAndLevel() {}
 
   @Test
-  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error occurred on connection  : java.net.BindException: Address already in use: bind"
+  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error
+  // occurred on connection  : java.net.BindException: Address already in use: bind"
   @WithMockUser(roles = "EDITOR")
   void getPage() throws Exception {
     mvc.perform(get("/api/log/technical/search")
             .queryParam("size", "2")
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))
@@ -53,8 +52,7 @@ class TechnicalLogControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "1")
             .queryParam("sortBy", "date")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))
@@ -67,7 +65,8 @@ class TechnicalLogControllerTest {
   }
 
   @Test
-  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error occurred on connection  : java.net.BindException: Address already in use: bind"
+  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error
+  // occurred on connection  : java.net.BindException: Address already in use: bind"
   @WithMockUser(roles = "EDITOR")
   void getPageWithFilterMultiple() throws Exception {
     mvc.perform(get("/api/log/technical/search")
@@ -75,8 +74,7 @@ class TechnicalLogControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
             .queryParam("order", "desc")
-            .queryParam("request", "date>`2024-03-08T10:01:00.00`,date<`2024-03-08T11:00:00.00`")
-        )
+            .queryParam("request", "date>`2024-03-08T10:01:00.00`,date<`2024-03-08T11:00:00.00`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))
@@ -88,7 +86,8 @@ class TechnicalLogControllerTest {
   }
 
   @Test
-  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error occurred on connection  : java.net.BindException: Address already in use: bind"
+  @Disabled // TODO fix log error "component":"BACKEND","level":"ERROR","completeLog":"an error
+  // occurred on connection  : java.net.BindException: Address already in use: bind"
   @WithMockUser(roles = "EDITOR")
   void getPageWithFilter() throws Exception {
     mvc.perform(get("/api/log/technical/search")
@@ -96,8 +95,7 @@ class TechnicalLogControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "date")
             .queryParam("order", "desc")
-            .queryParam("request", "date>`2024-03-08T10:01:00.00`")
-        )
+            .queryParam("request", "date>`2024-03-08T10:01:00.00`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(4)))

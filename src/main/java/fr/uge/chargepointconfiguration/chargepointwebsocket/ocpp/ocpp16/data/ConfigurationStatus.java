@@ -13,5 +13,8 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.ChangeCo
  * - NotSupported, the given key is not correct.
  */
 public enum ConfigurationStatus {
-  Accepted, Rejected, RebootRequired, NotSupported
+  Accepted,
+  Rejected,
+  RebootRequired,
+  NotSupported
 }

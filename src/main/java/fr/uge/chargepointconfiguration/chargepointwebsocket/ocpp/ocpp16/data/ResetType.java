@@ -9,5 +9,6 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.ResetReq
  * - Hard, the reboot will be done as soon as possible.
  */
 public enum ResetType {
-  Hard, Soft
+  Hard,
+  Soft
 }

@@ -2,7 +2,6 @@ package fr.uge.chargepointconfiguration.firmware;
 
 import fr.uge.chargepointconfiguration.typeallowed.TypeAllowedDto;
 import java.util.List;
-import java.util.Set;
 
 /**
  * DTO to create a firmware in database.
@@ -13,8 +12,4 @@ import java.util.Set;
  * @param typesAllowed Set of all the compatible firmware.
  */
 public record CreateFirmwareDto(
-        String url,
-        String version,
-        String constructor,
-        List<TypeAllowedDto> typesAllowed) {
-}
+    String url, String version, String constructor, List<TypeAllowedDto> typesAllowed) {}

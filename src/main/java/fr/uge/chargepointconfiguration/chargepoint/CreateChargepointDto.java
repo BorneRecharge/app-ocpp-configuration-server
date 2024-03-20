@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param configuration           A JSON containing the chargepoint's configuration.
  */
 public record CreateChargepointDto(
-    @JsonProperty("serialNumber")String serialNumberChargepoint,
+    @JsonProperty("serialNumber") String serialNumberChargepoint,
     String type,
     String constructor,
     String clientId,
-    int configuration) {
-}
+    int configuration) {}

@@ -26,7 +26,6 @@ public class UserService {
   private final PasswordEncoder passwordEncoder;
   private final CustomLogger logger;
 
-
   /**
    * Constructor for {@link UserService}.
    *
@@ -35,9 +34,8 @@ public class UserService {
    * @param logger {@link CustomLogger}
    */
   @Autowired
-  public UserService(UserRepository userRepository,
-                     PasswordEncoder passwordEncoder,
-                     CustomLogger logger) {
+  public UserService(
+      UserRepository userRepository, PasswordEncoder passwordEncoder, CustomLogger logger) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
     this.logger = logger;
@@ -53,8 +51,8 @@ public class UserService {
     var user = getById(id);
 
     if (user.getId() != getAuthenticatedUser().getId()) {
-      throw new IllegalOperationException("Impossible de changer le mot de passe d'un autre "
-                                          + "utilisateur.");
+      throw new IllegalOperationException(
+          "Impossible de changer le mot de passe d'un autre " + "utilisateur.");
     }
 
     if (!passwordEncoder.matches(changePasswordUserDto.oldPassword(), user.getPassword())) {
@@ -68,8 +66,8 @@ public class UserService {
     user.setPassword(passwordEncoder.encode(changePasswordUserDto.newPassword()));
 
     var result = userRepository.save(user);
-    logger.info(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
-        "Password updated for user : " + user.getId()));
+    logger.info(new TechnicalLog(
+        TechnicalLogEntity.Component.BACKEND, "Password updated for user : " + user.getId()));
 
     return result;
   }
@@ -117,7 +115,8 @@ public class UserService {
     user.setRole(role);
     var result = userRepository.save(user);
 
-    logger.info(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
+    logger.info(new TechnicalLog(
+        TechnicalLogEntity.Component.BACKEND,
         "Role updated for user : " + user.getId() + " " + user.getRole()));
 
     return result;
@@ -152,8 +151,7 @@ public class UserService {
   public List<User> search(String request, PageRequest pageable) {
     try {
       var condition = SearchUtils.computeSpecification(request, User.class);
-      return userRepository.findAll(condition, pageable)
-          .stream().toList();
+      return userRepository.findAll(condition, pageable).stream().toList();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("Requête invalide pour les filtres : " + request, e);
     }
@@ -171,8 +169,8 @@ public class UserService {
       throw new BadRequestException("L'email est requis.");
     }
     if (userRepository.findByEmail(createUserDto.email()) != null) {
-      throw new EntityAlreadyExistingException("L'utilisateur existe déjà : "
-                                               + createUserDto.email());
+      throw new EntityAlreadyExistingException(
+          "L'utilisateur existe déjà : " + createUserDto.email());
     }
 
     if (createUserDto.password().isBlank()) {
@@ -192,12 +190,12 @@ public class UserService {
         createUserDto.lastName(),
         createUserDto.email(),
         passwordEncoder.encode(createUserDto.password()),
-        createUserDto.role()
-    );
+        createUserDto.role());
 
     var result = userRepository.save(user);
 
-    logger.info(new TechnicalLog(TechnicalLogEntity.Component.BACKEND,
+    logger.info(new TechnicalLog(
+        TechnicalLogEntity.Component.BACKEND,
         "New user saved : " + user.getId() + " " + user.getRole()));
 
     return result;

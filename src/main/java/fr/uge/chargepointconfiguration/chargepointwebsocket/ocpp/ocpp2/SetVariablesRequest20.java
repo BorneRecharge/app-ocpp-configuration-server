@@ -10,5 +10,4 @@ import java.util.List;
  * @param setVariableData {@link SetVariableData}.
  */
 public record SetVariablesRequest20(List<SetVariableData> setVariableData)
-        implements OcppMessageRequest {
-}
+    implements OcppMessageRequest {}

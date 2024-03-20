@@ -7,7 +7,6 @@ package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp;
  * - 99 if it is unknown.
  */
 public enum MessageType {
-
   REQUEST(2),
   RESPONSE(3),
   UNKNOWN(99);

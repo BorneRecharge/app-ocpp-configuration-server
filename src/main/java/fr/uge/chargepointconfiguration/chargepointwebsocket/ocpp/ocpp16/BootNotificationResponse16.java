@@ -1,13 +1,12 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
+import static fr.uge.chargepointconfiguration.tools.JsonParser.OCPP_RFC3339_DATE_FORMAT;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppMessageResponse;
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.data.RegistrationStatus;
-
 import java.time.Instant;
 import java.util.Objects;
-
-import static fr.uge.chargepointconfiguration.tools.JsonParser.OCPP_RFC3339_DATE_FORMAT;
 
 /**
  * Defines a response to the BootNotificationRequest.<br>
@@ -20,10 +19,14 @@ import static fr.uge.chargepointconfiguration.tools.JsonParser.OCPP_RFC3339_DATE
  *               rejected or something else.
  */
 public record BootNotificationResponse16(
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = OCPP_RFC3339_DATE_FORMAT, timezone = "UTC")
+    @JsonFormat(
+            shape = JsonFormat.Shape.STRING,
+            pattern = OCPP_RFC3339_DATE_FORMAT,
+            timezone = "UTC")
         Instant currentTime,
-        int interval,
-        RegistrationStatus status) implements OcppMessageResponse {
+    int interval,
+    RegistrationStatus status)
+    implements OcppMessageResponse {
 
   /**
    * {@link BootNotificationResponse16}'s constructor.

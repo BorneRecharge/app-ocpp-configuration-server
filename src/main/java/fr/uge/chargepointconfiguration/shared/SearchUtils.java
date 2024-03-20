@@ -34,9 +34,8 @@ public class SearchUtils {
     var params = getSearchCriteria(request);
     checkFieldsInEntity(entity, params);
 
-    var conditions = params.stream()
-        .<Specification<T>>map(SearchUtils::getSpecification)
-        .toList();
+    var conditions =
+        params.stream().<Specification<T>>map(SearchUtils::getSpecification).toList();
 
     // default condition
     Specification<T> condition = (root, query, criteriaBuilder) -> null;
@@ -54,8 +53,7 @@ public class SearchUtils {
         if (root.get(criteria.key()).getJavaType() == LocalDateTime.class) {
           yield builder.greaterThanOrEqualTo(
               root.get(criteria.key()).as(LocalDateTime.class),
-              LocalDateTime.parse(criteria.value().toString())
-          );
+              LocalDateTime.parse(criteria.value().toString()));
         } else {
           yield builder.greaterThanOrEqualTo(
               root.get(criteria.key()), criteria.value().toString());
@@ -65,8 +63,7 @@ public class SearchUtils {
         if (root.get(criteria.key()).getJavaType() == LocalDateTime.class) {
           yield builder.lessThanOrEqualTo(
               root.get(criteria.key()).as(LocalDateTime.class),
-              LocalDateTime.parse(criteria.value().toString())
-          );
+              LocalDateTime.parse(criteria.value().toString()));
         } else {
           yield builder.lessThanOrEqualTo(
               root.get(criteria.key()), criteria.value().toString());
@@ -78,8 +75,7 @@ public class SearchUtils {
         } else if (root.get(criteria.key()).getJavaType() == LocalDateTime.class) {
           yield builder.equal(
               root.get(criteria.key()).as(LocalDateTime.class),
-              LocalDateTime.parse(criteria.value().toString())
-          );
+              LocalDateTime.parse(criteria.value().toString()));
         } else {
           yield builder.equal(root.get(criteria.key()), criteria.value());
         }
@@ -93,20 +89,21 @@ public class SearchUtils {
       try {
         clazz.getDeclaredField(field);
       } catch (NoSuchFieldException e) {
-        throw new IllegalArgumentException("Field %s not found in class %s."
-            .formatted(field, clazz.getName()), e);
+        throw new IllegalArgumentException(
+            "Field %s not found in class %s.".formatted(field, clazz.getName()), e);
       }
     });
   }
 
   private static ArrayList<SearchCriteria> getSearchCriteria(String request) {
-    var pattern = Pattern.compile("(\\w+?)(:|<|>)(\\`([^\\`]+)\\`)",
-        Pattern.UNICODE_CHARACTER_CLASS);
+    var pattern =
+        Pattern.compile("(\\w+?)(:|<|>)(\\`([^\\`]+)\\`)", Pattern.UNICODE_CHARACTER_CLASS);
     var matcher = pattern.matcher(request + ",");
     var params = new ArrayList<SearchCriteria>();
 
     while (matcher.find()) {
-      params.add(new SearchCriteria(matcher.group(1),
+      params.add(new SearchCriteria(
+          matcher.group(1),
           SearchCriteria.Operation.fromString(matcher.group(2)),
           matcher.group(4)));
     }

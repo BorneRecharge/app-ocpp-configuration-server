@@ -9,48 +9,43 @@ import java.util.Objects;
  * It is used for translating the given configuration file from the database and for the front.
  */
 public enum ConfigurationTranscriptor {
+  LIGHT_INTENSITY(
+      1,
+      "Intensité de la LED",
+      FirmwareKey.LIGHT_INTENSITY,
+      "UNKNOWN",
+      new Component("UNKNOWN"),
+      "^(100|\\d{1,2})$"),
 
-  LIGHT_INTENSITY(1,
-          "Intensité de la LED",
-          FirmwareKey.LIGHT_INTENSITY,
-          "UNKNOWN",
-          new Component("UNKNOWN"),
-          "^(100|\\d{1,2})$"),
+  NETWORK_PROFILE(
+      2, "Adresse du prochain serveur", FirmwareKey.NETWORK_PROFILE, "", new Component(""), ""),
 
-  NETWORK_PROFILE(2,
-          "Adresse du prochain serveur",
-          FirmwareKey.NETWORK_PROFILE,
-          "",
-          new Component(""),
-          ""),
+  CHARGEPOINT_IDENTITY(
+      3,
+      "Nom de la borne",
+      FirmwareKey.CHARGEPOINT_IDENTITY,
+      "Identity",
+      new Component("SecurityCtrlr"),
+      "^.{0,20}$"),
 
-  CHARGEPOINT_IDENTITY(3,
-          "Nom de la borne",
-          FirmwareKey.CHARGEPOINT_IDENTITY,
-          "Identity",
-          new Component("SecurityCtrlr"),
-          "^.{0,20}$"),
+  LOCAL_AUTH_LIST(
+      4,
+      "Activer la liste des badges d'authentification ?",
+      FirmwareKey.LOCAL_AUTH_LIST,
+      "LocalAuthListEnabled",
+      new Component("LocalAuthListCtrlr"),
+      ""),
 
-  LOCAL_AUTH_LIST(4,
-          "Activer la liste des badges d'authentification ?",
-          FirmwareKey.LOCAL_AUTH_LIST,
-          "LocalAuthListEnabled",
-          new Component("LocalAuthListCtrlr"),
-          ""),
+  STATION_MAX_CURRENT(
+      5, "Courant max de la borne", FirmwareKey.STATION_MAX_CURRENT, "", new Component(""), ""),
 
-  STATION_MAX_CURRENT(5,
-          "Courant max de la borne",
-          FirmwareKey.STATION_MAX_CURRENT,
-          "",
-          new Component(""),
-          ""),
-
-  STATION_PASSWORD(6,
-          "Changer le mot de passe de la borne",
-          FirmwareKey.STATION_PASSWORD,
-          "BasicAuthPassword",
-          new Component("SecurityCtrlr"),
-          "^(?!.*[\\\\\",]).{10,40}$");
+  STATION_PASSWORD(
+      6,
+      "Changer le mot de passe de la borne",
+      FirmwareKey.STATION_PASSWORD,
+      "BasicAuthPassword",
+      new Component("SecurityCtrlr"),
+      "^(?!.*[\\\\\",]).{10,40}$");
 
   private final int id;
   private final String fullName;
@@ -68,12 +63,13 @@ public enum ConfigurationTranscriptor {
    * @param component {@link Component}.
    * @param regexRule The rule which a user should respect when giving a value to the given key.
    */
-  ConfigurationTranscriptor(int id,
-                            String fullName,
-                            FirmwareKey ocpp16Key,
-                            String ocpp20Key,
-                            Component component,
-                            String regexRule) {
+  ConfigurationTranscriptor(
+      int id,
+      String fullName,
+      FirmwareKey ocpp16Key,
+      String ocpp20Key,
+      Component component,
+      String regexRule) {
     this.id = id;
     this.fullName = Objects.requireNonNull(fullName);
     this.ocpp16Key = Objects.requireNonNull(ocpp16Key);

@@ -22,5 +22,4 @@ public record BusinessLogDto(
     ChargepointDto chargepoint,
     BusinessLogEntity.Category category,
     String level,
-    String completeLog) {
-}
+    String completeLog) {}

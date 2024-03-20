@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
  * Repository for the charge point configuration.
  */
 @Repository
-public interface ConfigurationRepository extends CrudRepository<Configuration, Integer>,
-    PagingAndSortingRepository<Configuration, Integer>,
-    JpaSpecificationExecutor<Configuration> {
+public interface ConfigurationRepository
+    extends CrudRepository<Configuration, Integer>,
+        PagingAndSortingRepository<Configuration, Integer>,
+        JpaSpecificationExecutor<Configuration> {
   List<Configuration> findAllByOrderByIdDesc();
 
   Page<Configuration> findAllByOrderByIdDesc(Pageable pageable);
-
 }

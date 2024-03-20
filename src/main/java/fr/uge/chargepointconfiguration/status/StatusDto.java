@@ -17,5 +17,4 @@ public record StatusDto(
     String error,
     boolean state,
     Chargepoint.Step step,
-    Chargepoint.StatusProcess status) {
-}
+    Chargepoint.StatusProcess status) {}

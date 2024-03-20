@@ -35,12 +35,10 @@ public record ConfigurationDto(
       return configuration;
     }
     var map = Arrays.stream(ConfigurationTranscriptor.values())
-        .collect(Collectors.toMap(ConfigurationTranscriptor::getId,
-            ConfigurationTranscriptor::getFullName));
+        .collect(Collectors.toMap(
+            ConfigurationTranscriptor::getId, ConfigurationTranscriptor::getFullName));
     var pattern = Pattern.compile("\"(\\d+)\"\\s*:\\s*\"(.*?)\"");
-    var matcher = pattern.matcher(
-        configuration.substring(1, configuration.length() - 1)
-    );
+    var matcher = pattern.matcher(configuration.substring(1, configuration.length() - 1));
     var sb = new StringBuilder();
     sb.append("{");
 
@@ -53,11 +51,7 @@ public record ConfigurationDto(
 
       var replacement = map.getOrDefault(numericKey, matcher.group(1));
 
-      sb.append("\"")
-          .append(replacement)
-          .append("\":")
-          .append("\"")
-          .append(value);
+      sb.append("\"").append(replacement).append("\":").append("\"").append(value);
 
       start = matcher.end();
     }

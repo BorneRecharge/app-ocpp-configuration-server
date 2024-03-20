@@ -37,7 +37,10 @@ public final class BusinessLogEntity implements LogEntity {
    * - CONFIG : any creation/modification/delete of a configuration.<br>
    */
   public enum Category {
-    LOGIN, STATUS, FIRM, CONFIG
+    LOGIN,
+    STATUS,
+    FIRM,
+    CONFIG
   }
 
   @Id
@@ -45,8 +48,7 @@ public final class BusinessLogEntity implements LogEntity {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "date", nullable = false,
-          columnDefinition = "datetime default current_timestamp")
+  @Column(name = "date", nullable = false, columnDefinition = "datetime default current_timestamp")
   @CreationTimestamp
   private LocalDateTime date;
 
@@ -55,12 +57,13 @@ public final class BusinessLogEntity implements LogEntity {
    * user isn't the key word user, but a field user in the database.
    */
   @ManyToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "user_id", referencedColumnName = "id",
-      columnDefinition = "int default NULL")
+  @JoinColumn(name = "user_id", referencedColumnName = "id", columnDefinition = "int default NULL")
   private User user = null;
 
   @ManyToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "chargepoint_id", referencedColumnName = "id_chargepoint",
+  @JoinColumn(
+      name = "chargepoint_id",
+      referencedColumnName = "id_chargepoint",
       columnDefinition = "int default NULL")
   private Chargepoint chargepoint = null;
 
@@ -83,11 +86,8 @@ public final class BusinessLogEntity implements LogEntity {
    * @param level String version of {@link Level}.
    * @param completeLog All the log in a String.
    */
-  public BusinessLogEntity(User user,
-                           Chargepoint chargepoint,
-                           Category category,
-                           String level,
-                           String completeLog) {
+  public BusinessLogEntity(
+      User user, Chargepoint chargepoint, Category category, String level, String completeLog) {
     this.user = user;
     this.chargepoint = chargepoint;
     this.category = Objects.requireNonNull(category);
@@ -113,9 +113,7 @@ public final class BusinessLogEntity implements LogEntity {
   /**
    * Empty constructor. Should not be called.
    */
-  public BusinessLogEntity() {
-
-  }
+  public BusinessLogEntity() {}
 
   public int getId() {
     return id;
@@ -182,27 +180,29 @@ public final class BusinessLogEntity implements LogEntity {
       return false;
     }
     return getId() == that.getId()
-           && getChargepoint() == that.getChargepoint()
-           && Objects.equals(getDate(), that.getDate())
-           && Objects.equals(getUser(), that.getUser())
-           && getCategory() == that.getCategory()
-           && Objects.equals(getLevel(), that.getLevel())
-           && Objects.equals(getCompleteLog(), that.getCompleteLog());
+        && getChargepoint() == that.getChargepoint()
+        && Objects.equals(getDate(), that.getDate())
+        && Objects.equals(getUser(), that.getUser())
+        && getCategory() == that.getCategory()
+        && Objects.equals(getLevel(), that.getLevel())
+        && Objects.equals(getCompleteLog(), that.getCompleteLog());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(),
-            getDate(),
-            getUser(),
-            getChargepoint(),
-            getCategory(),
-            getLevel(),
-            getCompleteLog());
+    return Objects.hash(
+        getId(),
+        getDate(),
+        getUser(),
+        getChargepoint(),
+        getCategory(),
+        getLevel(),
+        getCompleteLog());
   }
 
   public BusinessLogDto toDto() {
-    return new BusinessLogDto(this.id,
+    return new BusinessLogDto(
+        this.id,
         Timestamp.valueOf(date),
         user != null ? this.user.toDto() : null,
         chargepoint != null ? this.chargepoint.toDto() : null,
@@ -214,24 +214,24 @@ public final class BusinessLogEntity implements LogEntity {
   @Override
   public String text() {
     return date + " "
-           + "{" + category + "} "
-           + "{" + level + "} "
-           + "(" + id + ") "
-           + "user " + (user == null ? "null" : user.getId()) + " "
-           + "chargepoint " + (chargepoint == null ? "null" : chargepoint.getId()) + " "
-           + completeLog;
+        + "{" + category + "} "
+        + "{" + level + "} "
+        + "(" + id + ") "
+        + "user " + (user == null ? "null" : user.getId()) + " "
+        + "chargepoint " + (chargepoint == null ? "null" : chargepoint.getId()) + " "
+        + completeLog;
   }
 
   @Override
   public String toString() {
     return "BusinessLog{"
-           + "id=" + id
-           + ", date=" + date
-           + ", user='" + user + '\''
-           + ", chargePoint='" + chargepoint + '\''
-           + ", category='" + category + '\''
-           + ", level='" + level + '\''
-           + ", completeLog='" + completeLog + '\''
-           + '}';
+        + "id=" + id
+        + ", date=" + date
+        + ", user='" + user + '\''
+        + ", chargePoint='" + chargepoint + '\''
+        + ", category='" + category + '\''
+        + ", level='" + level + '\''
+        + ", completeLog='" + completeLog + '\''
+        + '}';
   }
 }

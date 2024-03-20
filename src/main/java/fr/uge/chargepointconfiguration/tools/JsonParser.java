@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.util.Objects;
 
 /**
@@ -24,12 +23,13 @@ public class JsonParser {
   public static <T> String objectToJsonString(T object) {
     Objects.requireNonNull(object);
     var mapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        .registerModule(new JavaTimeModule())
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     try {
       return mapper.writeValueAsString(object);
     } catch (JsonProcessingException e) {
-      throw new IllegalArgumentException("Unable to parse object to JSON string : " + e.getMessage(), e);
+      throw new IllegalArgumentException(
+          "Unable to parse object to JSON string : " + e.getMessage(), e);
     }
   }
 
@@ -44,14 +44,12 @@ public class JsonParser {
   public static <T> T stringToObject(Class<T> type, String content) {
     Objects.requireNonNull(type);
     Objects.requireNonNull(content);
-    var mapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule());
+    var mapper = new ObjectMapper().registerModule(new JavaTimeModule());
     try {
       return mapper.readValue(content, type);
     } catch (JsonProcessingException e) {
-      throw new IllegalArgumentException("Unable to parse JSON string to object : " + e.getMessage(), e);
+      throw new IllegalArgumentException(
+          "Unable to parse JSON string to object : " + e.getMessage(), e);
     }
   }
-
 }
-

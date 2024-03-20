@@ -34,7 +34,8 @@ public class Chargepoint {
    * CONFIGURATION : the chargepoint will change values in his configuration.
    */
   public enum Step {
-    FIRMWARE, CONFIGURATION
+    FIRMWARE,
+    CONFIGURATION
   }
 
   /**
@@ -45,7 +46,10 @@ public class Chargepoint {
    * FAILED : the process has failed because of a wrong configuration or a bug.
    */
   public enum StatusProcess {
-    PENDING, PROCESSING, FINISHED, FAILED
+    PENDING,
+    PROCESSING,
+    FINISHED,
+    FAILED
   }
 
   @Id
@@ -65,8 +69,10 @@ public class Chargepoint {
   @Column(name = "client_id", nullable = false, length = 45)
   private String clientId;
 
-  @Column(name = "last_update", nullable = false,
-          columnDefinition = "datetime default current_timestamp")
+  @Column(
+      name = "last_update",
+      nullable = false,
+      columnDefinition = "datetime default current_timestamp")
   @CreationTimestamp
   private LocalDateTime lastUpdate = LocalDateTime.now();
 
@@ -80,16 +86,15 @@ public class Chargepoint {
   @Enumerated(EnumType.STRING)
   private Step step = Step.FIRMWARE;
 
-  @Column(name = "step_status", nullable = false,
-          columnDefinition = "varchar(32) default 'PENDING'")
+  @Column(
+      name = "step_status",
+      nullable = false,
+      columnDefinition = "varchar(32) default 'PENDING'")
   @Enumerated(EnumType.STRING)
   private StatusProcess status = StatusProcess.PENDING;
 
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(
-          name = "id_configuration",
-          referencedColumnName = "id_configuration"
-  )
+  @JoinColumn(name = "id_configuration", referencedColumnName = "id_configuration")
   private Configuration configuration;
 
   /**
@@ -106,16 +111,17 @@ public class Chargepoint {
    * @param step                    {@link Step}.
    * @param status           {@link StatusProcess}.
    */
-  public Chargepoint(String serialNumberChargepoint,
-                     String type,
-                     String constructor,
-                     String clientId,
-                     Configuration configuration,
-                     LocalDateTime lastUpdate,
-                     String error,
-                     boolean state,
-                     Step step,
-                     StatusProcess status) {
+  public Chargepoint(
+      String serialNumberChargepoint,
+      String type,
+      String constructor,
+      String clientId,
+      Configuration configuration,
+      LocalDateTime lastUpdate,
+      String error,
+      boolean state,
+      Step step,
+      StatusProcess status) {
     this.serialNumberChargepoint = Objects.requireNonNull(serialNumberChargepoint);
     this.type = Objects.requireNonNull(type);
     this.constructor = Objects.requireNonNull(constructor);
@@ -138,11 +144,12 @@ public class Chargepoint {
    * @param clientId                The client's name.
    * @param configuration           {@link Configuration}.
    */
-  public Chargepoint(String serialNumberChargepoint,
-                     String type,
-                     String constructor,
-                     String clientId,
-                     Configuration configuration) {
+  public Chargepoint(
+      String serialNumberChargepoint,
+      String type,
+      String constructor,
+      String clientId,
+      Configuration configuration) {
     this.serialNumberChargepoint = Objects.requireNonNull(serialNumberChargepoint);
     this.type = Objects.requireNonNull(type);
     this.constructor = Objects.requireNonNull(constructor);
@@ -154,8 +161,7 @@ public class Chargepoint {
   /**
    * Empty constructor. Should not be called.
    */
-  public Chargepoint() {
-  }
+  public Chargepoint() {}
 
   public int getId() {
     return id;
@@ -259,65 +265,60 @@ public class Chargepoint {
     }
     Chargepoint that = (Chargepoint) o;
     return id == that.id
-           && state == that.state
-           && Objects.equals(serialNumberChargepoint, that.serialNumberChargepoint)
-           && Objects.equals(type, that.type) && Objects.equals(constructor, that.constructor)
-           && Objects.equals(clientId, that.clientId)
-           && Objects.equals(lastUpdate, that.lastUpdate)
-           && Objects.equals(error, that.error)
-           && step == that.step
-           && status == that.status
-           && Objects.equals(configuration, that.configuration);
+        && state == that.state
+        && Objects.equals(serialNumberChargepoint, that.serialNumberChargepoint)
+        && Objects.equals(type, that.type)
+        && Objects.equals(constructor, that.constructor)
+        && Objects.equals(clientId, that.clientId)
+        && Objects.equals(lastUpdate, that.lastUpdate)
+        && Objects.equals(error, that.error)
+        && step == that.step
+        && status == that.status
+        && Objects.equals(configuration, that.configuration);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id,
-            serialNumberChargepoint,
-            type,
-            constructor,
-            clientId,
-            lastUpdate,
-            error,
-            state,
-            step,
-            status,
-            configuration);
+    return Objects.hash(
+        id,
+        serialNumberChargepoint,
+        type,
+        constructor,
+        clientId,
+        lastUpdate,
+        error,
+        state,
+        step,
+        status,
+        configuration);
   }
 
   @Override
   public String toString() {
     return "Chargepoint{"
-           + "id=" + id
-           + ", serialNumberChargepoint='" + serialNumberChargepoint + '\''
-           + ", type='" + type + '\''
-           + ", constructor='" + constructor + '\''
-           + ", clientId='" + clientId + '\''
-           + ", lastUpdate=" + lastUpdate
-           + ", error='" + error + '\''
-           + ", state=" + state
-           + ", step=" + step
-           + ", status=" + status
-           + ", configuration=" + configuration
-           + '}';
+        + "id=" + id
+        + ", serialNumberChargepoint='" + serialNumberChargepoint + '\''
+        + ", type='" + type + '\''
+        + ", constructor='" + constructor + '\''
+        + ", clientId='" + clientId + '\''
+        + ", lastUpdate=" + lastUpdate
+        + ", error='" + error + '\''
+        + ", state=" + state
+        + ", step=" + step
+        + ", status=" + status
+        + ", configuration=" + configuration
+        + '}';
   }
 
   public ChargepointDto toDto() {
-    var statusDto = new StatusDto(
-            Timestamp.valueOf(lastUpdate),
-            error,
-            state,
-            step,
-            status
-    );
+    var statusDto = new StatusDto(Timestamp.valueOf(lastUpdate), error, state, step, status);
     return new ChargepointDto(
-            id,
-            serialNumberChargepoint,
-            type,
-            constructor,
-            clientId,
-            configuration != null ? configuration.toDto() : null,
-            statusDto
-    );
+        id,
+        serialNumberChargepoint,
+        type,
+        constructor,
+        clientId,
+        configuration != null ? configuration.toDto() : null,
+        statusDto);
   }
 }

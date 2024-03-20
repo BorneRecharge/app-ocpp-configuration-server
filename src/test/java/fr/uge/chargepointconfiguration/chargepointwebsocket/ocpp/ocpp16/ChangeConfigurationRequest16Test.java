@@ -1,9 +1,10 @@
 package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * JUnit test class for the {@link ChangeConfigurationRequest16}.
@@ -16,10 +17,7 @@ class ChangeConfigurationRequest16Test {
   @Test
   public void correctConstructorShouldNotThrowException() {
     assertDoesNotThrow(() -> {
-      new ChangeConfigurationRequest16(
-              "key",
-              "value"
-      );
+      new ChangeConfigurationRequest16("key", "value");
     });
   }
 
@@ -28,10 +26,7 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void returnsCorrectKey() {
-    var test = new ChangeConfigurationRequest16(
-            "key",
-            "value"
-    );
+    var test = new ChangeConfigurationRequest16("key", "value");
     assertEquals("key", test.key());
   }
 
@@ -40,10 +35,7 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void returnsCorrectValue() {
-    var test = new ChangeConfigurationRequest16(
-            "key",
-            "value"
-    );
+    var test = new ChangeConfigurationRequest16("key", "value");
     assertEquals("value", test.value());
   }
 
@@ -52,10 +44,7 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void throwsExceptionIfKeyIsNull() {
-    assertThrows(NullPointerException.class, () -> new ChangeConfigurationRequest16(
-            null,
-            "value"
-    ));
+    assertThrows(NullPointerException.class, () -> new ChangeConfigurationRequest16(null, "value"));
   }
 
   /**
@@ -63,10 +52,7 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void throwsExceptionIfValueIsNull() {
-    assertThrows(NullPointerException.class, () -> new ChangeConfigurationRequest16(
-            "key",
-            null
-    ));
+    assertThrows(NullPointerException.class, () -> new ChangeConfigurationRequest16("key", null));
   }
 
   /**
@@ -74,10 +60,10 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void throwsExceptionIfKeyIsIncorrect() {
-    assertThrows(IllegalArgumentException.class, () -> new ChangeConfigurationRequest16(
-            "My key is more than 50 characters, which is pretty long !",
-            "value"
-    ));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new ChangeConfigurationRequest16(
+            "My key is more than 50 characters, which is pretty long !", "value"));
   }
 
   /**
@@ -85,7 +71,9 @@ class ChangeConfigurationRequest16Test {
    */
   @Test
   public void throwsExceptionIfValueIsIncorrect() {
-    assertThrows(IllegalArgumentException.class, () -> new ChangeConfigurationRequest16(
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new ChangeConfigurationRequest16(
             "key",
             """
                     Unfortunately, the value is more than 500 characters long.
@@ -96,7 +84,6 @@ class ChangeConfigurationRequest16Test {
                     You really do not want to have the constructor angry at you and if it is the case,
                     well, farewell and good luck my friend, because you'll need luck to survive !
                     Oh no, the constructor is here... Please have mercy, NOOOOOOOOOOOOOOOOOOOOOO
-            """
-    ));
+            """));
   }
 }

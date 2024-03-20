@@ -36,8 +36,7 @@ public class ConfigurationService {
       @JsonProperty("1") String lightIntensity,
       @JsonProperty("4") String localAuthList,
       @JsonProperty("5") String stationMaxCurrent,
-      @JsonProperty("6") String stationPassword) {
-  }
+      @JsonProperty("6") String stationPassword) {}
 
   /**
    * ConfigurationService's constructor.
@@ -46,10 +45,11 @@ public class ConfigurationService {
    * @param firmwareRepository      A FirmwareRepository accessing to database.
    */
   @Autowired
-  public ConfigurationService(ConfigurationRepository configurationRepository,
-                              FirmwareRepository firmwareRepository,
-                              UserService userService,
-                              CustomLogger logger) {
+  public ConfigurationService(
+      ConfigurationRepository configurationRepository,
+      FirmwareRepository firmwareRepository,
+      UserService userService,
+      CustomLogger logger) {
     this.configurationRepository = configurationRepository;
     this.firmwareRepository = firmwareRepository;
     this.userService = userService;
@@ -67,24 +67,20 @@ public class ConfigurationService {
       throw new BadRequestException("Le titre est requis");
     }
 
-    var firmware = firmwareRepository.findById(
-            createConfigurationDto.firmware())
-        .orElseThrow(
-            () -> new EntityNotFoundException(
-                "Aucun firmware avec l'id " + createConfigurationDto.firmware()
-            )
-        );
+    var firmware = firmwareRepository
+        .findById(createConfigurationDto.firmware())
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Aucun firmware avec l'id " + createConfigurationDto.firmware()));
 
     checkerConfig(createConfigurationDto);
 
     var configuration = configurationRepository.save(new Configuration(
-            createConfigurationDto.name(),
-            createConfigurationDto.description(),
-            createConfigurationDto.configuration(),
-            firmware
-        )
-    );
-    logger.info(new BusinessLog(userService.getAuthenticatedUser(),
+        createConfigurationDto.name(),
+        createConfigurationDto.description(),
+        createConfigurationDto.configuration(),
+        firmware));
+    logger.info(new BusinessLog(
+        userService.getAuthenticatedUser(),
         null,
         BusinessLogEntity.Category.CONFIG,
         "New configuration saved : " + configuration.getName()));
@@ -92,40 +88,38 @@ public class ConfigurationService {
   }
 
   private static void checkerConfig(CreateConfigurationDto createConfigurationDto) {
-    var confJson = JsonParser.stringToObject(ConfigurationJson.class,
-        createConfigurationDto.configuration());
+    var confJson =
+        JsonParser.stringToObject(ConfigurationJson.class, createConfigurationDto.configuration());
 
-    var transcriptorsById =
-        Arrays.stream(ConfigurationTranscriptor.values()).collect(Collectors.toMap(
-            ConfigurationTranscriptor::getId,
-            e -> e)
-        );
+    var transcriptorsById = Arrays.stream(ConfigurationTranscriptor.values())
+        .collect(Collectors.toMap(ConfigurationTranscriptor::getId, e -> e));
 
-    Arrays.stream(confJson.getClass().getDeclaredFields())
-        .forEach(field -> {
-          try {
-            if (field.get(confJson) == null) {
-              return;
-            }
-          } catch (IllegalAccessException e) {
-            throw new AssertionError(e);
-          }
-          String key = field.getAnnotation(JsonProperty.class).value();
-          try {
-            var idTranscriptor = Integer.parseInt(key);
-            var valid = field.get(confJson).toString()
-                .matches(transcriptorsById.get(idTranscriptor).getRegexRule());
-            if (!valid) {
-              throw new BadRequestException(
-                  "Le champs \"" + transcriptorsById.get(idTranscriptor).getFullName()
+    Arrays.stream(confJson.getClass().getDeclaredFields()).forEach(field -> {
+      try {
+        if (field.get(confJson) == null) {
+          return;
+        }
+      } catch (IllegalAccessException e) {
+        throw new AssertionError(e);
+      }
+      String key = field.getAnnotation(JsonProperty.class).value();
+      try {
+        var idTranscriptor = Integer.parseInt(key);
+        var valid = field
+            .get(confJson)
+            .toString()
+            .matches(transcriptorsById.get(idTranscriptor).getRegexRule());
+        if (!valid) {
+          throw new BadRequestException(
+              "Le champs \"" + transcriptorsById.get(idTranscriptor).getFullName()
                   + "\" ne respecte pas ses contraintes.");
-            }
-          } catch (NumberFormatException e) {
-            throw new BadRequestException("La clé " + key + " n'existe pas", e);
-          } catch (IllegalAccessException e) {
-            throw new AssertionError(e);
-          }
-        });
+        }
+      } catch (NumberFormatException e) {
+        throw new BadRequestException("La clé " + key + " n'existe pas", e);
+      } catch (IllegalAccessException e) {
+        throw new AssertionError(e);
+      }
+    });
   }
 
   /**
@@ -136,7 +130,8 @@ public class ConfigurationService {
    * @return A configuration created with its information.
    */
   public Configuration update(int id, CreateConfigurationDto configurationDto) {
-    var configuration = configurationRepository.findById(id)
+    var configuration = configurationRepository
+        .findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Aucune configuration avec l'id " + id));
 
     checkerConfig(configurationDto);
@@ -146,14 +141,14 @@ public class ConfigurationService {
     configuration.setConfiguration(configurationDto.configuration());
     configuration.setLastEdit(LocalDateTime.now());
 
-    configuration.setFirmware(
-        firmwareRepository.findById(configurationDto.firmware())
-            .orElseThrow(() -> new EntityNotFoundException("Aucun firmware avec l'id "
-                                                           + configurationDto.firmware()))
-    );
+    configuration.setFirmware(firmwareRepository
+        .findById(configurationDto.firmware())
+        .orElseThrow(() -> new EntityNotFoundException(
+            "Aucun firmware avec l'id " + configurationDto.firmware())));
 
     var result = configurationRepository.save(configuration);
-    logger.info(new BusinessLog(userService.getAuthenticatedUser(),
+    logger.info(new BusinessLog(
+        userService.getAuthenticatedUser(),
         null,
         BusinessLogEntity.Category.CONFIG,
         "Configuration updated : " + configuration));
@@ -167,8 +162,7 @@ public class ConfigurationService {
    * @return A list of configurations.
    */
   public List<Configuration> getAllConfigurations() {
-    return configurationRepository.findAllByOrderByIdDesc()
-        .stream().toList();
+    return configurationRepository.findAllByOrderByIdDesc().stream().toList();
   }
 
   /**
@@ -177,7 +171,8 @@ public class ConfigurationService {
    * @return Selected configurations.
    */
   public Configuration getConfiguration(int id) {
-    return configurationRepository.findById(id)
+    return configurationRepository
+        .findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Aucune configuration avec l'id " + id));
   }
 

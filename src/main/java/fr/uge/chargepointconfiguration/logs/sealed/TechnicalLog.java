@@ -8,7 +8,5 @@ import fr.uge.chargepointconfiguration.logs.CustomLogger;
  * @param component {@link TechnicalLogEntity.Component}
  * @param completeLog All the log in a String.
  */
-public record TechnicalLog(
-    TechnicalLogEntity.Component component,
-    String completeLog) implements Log {
-}
+public record TechnicalLog(TechnicalLogEntity.Component component, String completeLog)
+    implements Log {}

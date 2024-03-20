@@ -10,5 +10,4 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.OcppMessageRequ
  * @param requestId The id of the message that started the update process.
  */
 public record FirmwareStatusNotificationRequest20(String status, int requestId)
-        implements OcppMessageRequest {
-}
+    implements OcppMessageRequest {}

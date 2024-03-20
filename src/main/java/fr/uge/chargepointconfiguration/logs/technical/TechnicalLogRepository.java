@@ -14,9 +14,10 @@ import org.springframework.stereotype.Repository;
  * Repository for technical log.
  */
 @Repository
-public interface TechnicalLogRepository extends CrudRepository<TechnicalLogEntity, Integer>,
-    PagingAndSortingRepository<TechnicalLogEntity, Integer>,
-    JpaSpecificationExecutor<TechnicalLogEntity> {
+public interface TechnicalLogRepository
+    extends CrudRepository<TechnicalLogEntity, Integer>,
+        PagingAndSortingRepository<TechnicalLogEntity, Integer>,
+        JpaSpecificationExecutor<TechnicalLogEntity> {
 
   /**
    * Method to return all technical logs.
@@ -35,8 +36,7 @@ public interface TechnicalLogRepository extends CrudRepository<TechnicalLogEntit
    * @return the list of technical logs by component.
    */
   List<TechnicalLogEntity> findAllByComponentAndLevelOrderByIdDesc(
-          TechnicalLogEntity.Component component,
-          String level);
+      TechnicalLogEntity.Component component, String level);
 
   /**
    * Method to return all technical logs by the criticality.
@@ -45,6 +45,4 @@ public interface TechnicalLogRepository extends CrudRepository<TechnicalLogEntit
    * @return the list of technical logs by criticality.
    */
   List<TechnicalLogEntity> findAllByLevelOrderByIdDesc(String level);
-
-
 }

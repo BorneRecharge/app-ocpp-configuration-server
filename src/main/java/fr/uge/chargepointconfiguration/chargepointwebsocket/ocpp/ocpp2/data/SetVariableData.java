@@ -7,7 +7,4 @@ package fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.data;
  * @param component {@link Component}.
  * @param variable {@link VariableType}.
  */
-public record SetVariableData(String attributeValue,
-                              Component component,
-                              VariableType variable) {
-}
+public record SetVariableData(String attributeValue, Component component, VariableType variable) {}

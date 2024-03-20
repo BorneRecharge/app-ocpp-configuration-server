@@ -50,13 +50,9 @@ public class CustomLogger {
           businessLog.chargepoint(),
           businessLog.category(),
           level.name(),
-          businessLog.completeLog()
-      ));
+          businessLog.completeLog()));
       case TechnicalLog technicalLog -> log(new TechnicalLogEntity(
-          technicalLog.component(),
-          level.name(),
-          technicalLog.completeLog()
-      ));
+          technicalLog.component(), level.name(), technicalLog.completeLog()));
     }
   }
 

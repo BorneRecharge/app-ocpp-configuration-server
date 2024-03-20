@@ -60,5 +60,4 @@ public class FrontWebSocketHandler extends TextWebSocketHandler {
       });
     }
   }
-
 }

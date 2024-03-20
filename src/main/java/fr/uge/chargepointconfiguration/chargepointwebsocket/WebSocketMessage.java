@@ -153,18 +153,16 @@ public interface WebSocketMessage {
       case REQUEST -> {
         try {
           var messageId = Long.parseLong(array[1].replaceAll("\"", ""));
-          var messageName = MessageTypeRequest
-                  .nameToEnum(array[2]
-                          .substring(1, array[2].length() - 1));
+          var messageName =
+              MessageTypeRequest.nameToEnum(array[2].substring(1, array[2].length() - 1));
           yield Optional.of(
-                  new WebSocketRequestMessage(callType, messageId, messageName, array[3])
-          );
+              new WebSocketRequestMessage(callType, messageId, messageName, array[3]));
         } catch (NumberFormatException n) {
           yield Optional.empty();
         }
       }
       case UNKNOWN -> // TODO : Log, unknown type.
-              Optional.empty();
+      Optional.empty();
     };
   }
 }

@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
  * Repository for the charge point.
  */
 @Repository
-public interface ChargepointRepository extends CrudRepository<Chargepoint, Integer>,
-    PagingAndSortingRepository<Chargepoint, Integer>,
-    JpaSpecificationExecutor<Chargepoint> {
+public interface ChargepointRepository
+    extends CrudRepository<Chargepoint, Integer>,
+        PagingAndSortingRepository<Chargepoint, Integer>,
+        JpaSpecificationExecutor<Chargepoint> {
 
   /**
    * Returns a Chargepoint from the database according to the serial number and vendor.
@@ -23,9 +24,7 @@ public interface ChargepointRepository extends CrudRepository<Chargepoint, Integ
    * @param constructor Chargepoint's vendor.
    * @return The correct Chargepoint or null if the chargepoint couldn't be found.
    */
-  Chargepoint findBySerialNumberChargepointAndConstructor(String serialNumber,
-                                                          String constructor);
-
+  Chargepoint findBySerialNumberChargepointAndConstructor(String serialNumber, String constructor);
 
   /**
    * Return a list of registered Chargepoints from database.
@@ -35,6 +34,5 @@ public interface ChargepointRepository extends CrudRepository<Chargepoint, Integ
   List<Chargepoint> findAllByOrderByIdDesc();
 
   Page<Chargepoint> findAllByClientIdContainingIgnoreCaseOrderByIdDesc(
-        Pageable pageable,
-        String clientId);
+      Pageable pageable, String clientId);
 }

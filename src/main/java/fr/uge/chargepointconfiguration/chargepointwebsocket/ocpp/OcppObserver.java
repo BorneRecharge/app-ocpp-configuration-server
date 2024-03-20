@@ -7,7 +7,6 @@ import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp16.OcppConf
 import fr.uge.chargepointconfiguration.chargepointwebsocket.ocpp.ocpp2.OcppConfigurationObserver20;
 import fr.uge.chargepointconfiguration.firmware.FirmwareRepository;
 import fr.uge.chargepointconfiguration.logs.CustomLogger;
-
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,12 +28,13 @@ public interface OcppObserver {
    * @param logger {@link CustomLogger}.
    * @return {@link OcppObserver}.
    */
-  static OcppObserver instantiateFromVersion(OcppVersion ocppVersion,
-                                             ChargePointManager chargePointManager,
-                                             OcppMessageSender ocppMessageSender,
-                                             ChargepointRepository chargepointRepository,
-                                             FirmwareRepository firmwareRepository,
-                                             CustomLogger logger) {
+  static OcppObserver instantiateFromVersion(
+      OcppVersion ocppVersion,
+      ChargePointManager chargePointManager,
+      OcppMessageSender ocppMessageSender,
+      ChargepointRepository chargepointRepository,
+      FirmwareRepository firmwareRepository,
+      CustomLogger logger) {
     Objects.requireNonNull(ocppVersion);
     Objects.requireNonNull(chargePointManager);
     Objects.requireNonNull(ocppMessageSender);
@@ -43,17 +43,9 @@ public interface OcppObserver {
     Objects.requireNonNull(logger);
     return switch (ocppVersion) {
       case V1_6 -> new OcppConfigurationObserver16(
-              ocppMessageSender,
-              chargePointManager,
-              chargepointRepository,
-              firmwareRepository,
-              logger
-      );
+          ocppMessageSender, chargePointManager, chargepointRepository, firmwareRepository, logger);
       case V2 -> new OcppConfigurationObserver20(
-              ocppMessageSender,
-              chargePointManager,
-              chargepointRepository
-      );
+          ocppMessageSender, chargePointManager, chargepointRepository);
     };
   }
 

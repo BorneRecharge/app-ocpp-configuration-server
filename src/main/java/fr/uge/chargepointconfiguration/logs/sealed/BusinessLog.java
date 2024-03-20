@@ -13,11 +13,5 @@ import fr.uge.chargepointconfiguration.user.User;
  * @param completeLog All the log in a String.
  */
 public record BusinessLog(
-    User user,
-
-    Chargepoint chargepoint,
-
-    BusinessLogEntity.Category category,
-
-    String completeLog) implements Log {
-}
+    User user, Chargepoint chargepoint, BusinessLogEntity.Category category, String completeLog)
+    implements Log {}

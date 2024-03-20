@@ -1,5 +1,10 @@
 package fr.uge.chargepointconfiguration.firmware;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,14 +25,11 @@ class FirmwareControllerTest {
 
   @Test
   @Disabled
-  void getAllFirmwares() {
-  }
+  void getAllFirmwares() {}
 
   @Test
   @Disabled
-  void getFirmwareById() {
-  }
-
+  void getFirmwareById() {}
 
   @Test
   @WithMockUser(roles = "EDITOR")
@@ -40,8 +38,7 @@ class FirmwareControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "0")
             .queryParam("sortBy", "version")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(3)))
@@ -56,8 +53,7 @@ class FirmwareControllerTest {
             .queryParam("size", "2")
             .queryParam("page", "1")
             .queryParam("sortBy", "version")
-            .queryParam("order", "desc")
-        )
+            .queryParam("order", "desc"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(3)))
@@ -76,8 +72,7 @@ class FirmwareControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "version")
             .queryParam("order", "desc")
-            .queryParam("request", "version>`6`,url:`Firmware3`")
-        )
+            .queryParam("request", "version>`6`,url:`Firmware3`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(1)))
@@ -96,8 +91,7 @@ class FirmwareControllerTest {
             .queryParam("page", "0")
             .queryParam("sortBy", "version")
             .queryParam("order", "desc")
-            .queryParam("request", "version>`6`")
-        )
+            .queryParam("request", "version>`6`"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.total", is(2)))
