@@ -1,0 +1,9 @@
+{
+  "build": {
+    "type": "maven",
+    "goal": "--batch-mode -Dmaven.javadoc.skip=true -Djar.finalName=ocpp-config-server package"
+  },
+  "deploy": {
+    "jarName": "target/ocpp-config-server.jar"
+  }
+}
