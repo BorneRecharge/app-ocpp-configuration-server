@@ -40,7 +40,7 @@
     <properties>
         <java.version>21</java.version>
         <jar.finalName>${project.artifactId}-${project.version}</jar.finalName>
-        <dep.errorprone.version>2.28.0</dep.errorprone.version>
+        <dep.errorprone.version>2.32.0</dep.errorprone.version>
     </properties>
     <dependencies>
         <dependency>
